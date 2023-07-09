@@ -8,15 +8,18 @@ function Youtube() {
 	const [Vids, setVids] = useState([]);
 	const [Index, setIndex] = useState(0);
 
-	useEffect(() => {
+	const fetchYoutube = async () => {
 		const key = 'AIzaSyAsfSiK4NgpHz-QbJ48s9iUVg30JzSQ7rc';
 		const list = 'PLJkDsZz0FhUkqKafhbfEQmjhSROZ1kiIl';
 		const num = 10;
 		const url = `https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&key=${key}&playlistId=${list}&maxResults=${num}`;
 
-		axios.get(url).then((data) => {
-			setVids(data.data.items);
-		});
+		const result = await axios.get(url);
+		setVids(result.data.items);
+	};
+
+	useEffect(() => {
+		fetchYoutube();
 	}, []);
 
 	return (
