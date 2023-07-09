@@ -13,16 +13,15 @@ const Modal = forwardRef((props, ref) => {
 		<>
 			{Open && (
 				<aside className='modal'>
-					<div className='con'>
-						<span
-							className='close'
-							onClick={() => {
-								setOpen(false);
-							}}
-						>
-							close
-						</span>
-					</div>
+					<div className='con'>{props.children}</div>
+					<span
+						className='close'
+						onClick={() => {
+							setOpen(false);
+						}}
+					>
+						close
+					</span>
 				</aside>
 			)}
 		</>
