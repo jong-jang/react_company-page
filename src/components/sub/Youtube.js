@@ -19,7 +19,7 @@ function Youtube() {
 
 	return (
 		<Layout name={'Youtube'}>
-			{Vids.map((vid, idx) => {
+			{Vids.map((vid) => {
 				return (
 					<article key={vid.id}>
 						<h2>{vid.snippet.title.length > 50 ? vid.snippet.title.substr(0, 50) + '...' : vid.snippet.title}</h2>
