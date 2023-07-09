@@ -1,9 +1,10 @@
 import Layout from '../common/Layout';
 import axios from 'axios';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Modal from '../common/Modal';
 
 function Youtube() {
+	const modal = useRef(null);
 	const [Vids, setVids] = useState([]);
 
 	useEffect(() => {
@@ -29,7 +30,12 @@ function Youtube() {
 								<p>{vid.snippet.description.length > 200 ? vid.snippet.description.substr(0, 200) + '...' : vid.snippet.description}</p>
 								<span>{vid.snippet.publishedAt.split('T')[0].split('-').join('.')}</span>
 							</div>
-							<div className='pic'>
+							<div
+								className='pic'
+								onClick={() => {
+									modal.current.open();
+								}}
+							>
 								<img src={vid.snippet.thumbnails.standard.url} alt='썸네일' />
 							</div>
 						</article>
@@ -37,7 +43,7 @@ function Youtube() {
 				})}
 			</Layout>
 
-			<Modal />
+			<Modal ref={modal} />
 		</>
 	);
 }
