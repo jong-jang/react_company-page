@@ -6,6 +6,7 @@ import Modal from '../common/Modal';
 function Youtube() {
 	const modal = useRef(null);
 	const [Vids, setVids] = useState([]);
+	const [Index, setIndex] = useState(0);
 
 	useEffect(() => {
 		const key = 'AIzaSyAsfSiK4NgpHz-QbJ48s9iUVg30JzSQ7rc';
@@ -15,14 +16,13 @@ function Youtube() {
 
 		axios.get(url).then((data) => {
 			setVids(data.data.items);
-			console.log(Vids);
 		});
 	}, []);
 
 	return (
 		<>
 			<Layout name={'Youtube'}>
-				{Vids.map((vid) => {
+				{Vids.map((vid, idx) => {
 					return (
 						<article key={vid.id}>
 							<h2>{vid.snippet.title.length > 50 ? vid.snippet.title.substr(0, 50) + '...' : vid.snippet.title}</h2>
@@ -34,6 +34,7 @@ function Youtube() {
 								className='pic'
 								onClick={() => {
 									modal.current.open();
+									setIndex(idx);
 								}}
 							>
 								<img src={vid.snippet.thumbnails.standard.url} alt='썸네일' />
@@ -43,7 +44,9 @@ function Youtube() {
 				})}
 			</Layout>
 
-			<Modal ref={modal} />
+			<Modal ref={modal}>
+				<iframe title={Vids[Index]?.snippet.title} src={`https://www.youtube.com/embed/${Vids[Index]?.snippet.resourceId.videoId}`}></iframe>
+			</Modal>
 		</>
 	);
 }
