@@ -6,16 +6,20 @@ import Pics from './Pics';
 import Vids from './Vids';
 import Visual from './Visual';
 
+import { useState } from 'react';
+
 function Main() {
+	const [Scrolled, setScrolled] = useState(0);
+
 	return (
 		<main>
 			<Header type={'main'} />
 			<Visual />
 			<News />
-			<Pics />
+			<Pics Scrolled={Scrolled} />
 			<Vids />
 			<Banner />
-			<Btns />
+			<Btns setScrolled={setScrolled} />
 		</main>
 	);
 }
