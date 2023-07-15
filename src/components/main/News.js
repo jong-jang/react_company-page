@@ -1,5 +1,9 @@
 function News() {
-	return <section id='news'>News</section>;
+	return (
+		<section id='news' className='myScroll'>
+			News
+		</section>
+	);
 }
 
 export default News;

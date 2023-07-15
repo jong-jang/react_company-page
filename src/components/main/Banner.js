@@ -1,5 +1,9 @@
 function Banner() {
-	return <section id='banner'>Banner</section>;
+	return (
+		<section id='banner' className='myScroll'>
+			Banner
+		</section>
+	);
 }
 
 export default Banner;
