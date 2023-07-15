@@ -1,4 +1,5 @@
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useEffect, useState } from 'react';
+import Anime from '../../asset/anime';
 
 function Btns() {
 	const btnRef = useRef(null);
@@ -12,11 +13,25 @@ function Btns() {
 		setNum(pos.current.length);
 	};
 
+	const activation = () => {
+		const scroll = window.scrollY;
+		const btns = btnRef.current.children;
+
+		pos.current.forEach((pos, idx) => {
+			if (scroll >= pos) {
+				for (const btn of btns) btn.classList.remove('on');
+				btns[idx].classList.add('on');
+			}
+		});
+	};
+
 	useEffect(() => {
 		getPos();
 		window.addEventListener('resize', getPos);
+		window.addEventListener('scroll', activation);
 		return () => {
 			window.removeEventListener('resize', getPos);
+			window.removeEventListener('scroll', activation);
 		};
 	}, []);
 
@@ -25,7 +40,21 @@ function Btns() {
 			{Array(Num)
 				.fill()
 				.map((_, idx) => {
-					return <li key={idx}></li>;
+					let defaultClass = '';
+					if (idx === 0) defaultClass = 'on';
+					return (
+						<li
+							className={defaultClass}
+							key={idx}
+							onClick={() => {
+								new Anime(window, {
+									prop: 'scroll',
+									value: pos.current[idx],
+									duration: 500,
+								});
+							}}
+						></li>
+					);
 				})}
 		</ul>
 	);
