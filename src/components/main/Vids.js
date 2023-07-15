@@ -1,7 +1,5 @@
-import React from 'react';
-
 function Vids() {
-	return <div>Vids</div>;
+	return <section id='vids'>Vids</section>;
 }
 
 export default Vids;

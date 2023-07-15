@@ -1,7 +1,5 @@
-import React from 'react';
-
 function Banner() {
-	return <div>Banner</div>;
+	return <section id='banner'>Banner</section>;
 }
 
 export default Banner;

@@ -1,7 +1,5 @@
-import React from 'react';
-
 function News() {
-	return <div>News</div>;
+	return <section id='news'>News</section>;
 }
 
 export default News;
