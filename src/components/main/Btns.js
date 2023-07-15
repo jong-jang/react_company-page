@@ -1,14 +1,15 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 function Btns() {
 	const btnRef = useRef(null);
 	let pos = useRef([]);
+	const [Num, setNum] = useState(0);
 
 	const getPos = () => {
 		pos.current = [];
 		const secs = btnRef.current.parentElement.querySelectorAll('.myScroll');
 		for (const sec of secs) pos.current.push(sec.offsetTop);
-		console.log(pos.current);
+		setNum(pos.current.length);
 	};
 
 	useEffect(() => {
@@ -18,13 +19,14 @@ function Btns() {
 			window.removeEventListener('resize', getPos);
 		};
 	}, []);
+
 	return (
 		<ul id='scroll_navi' ref={btnRef}>
-			<li></li>
-			<li></li>
-			<li></li>
-			<li></li>
-			<li></li>
+			{Array(Num)
+				.fill()
+				.map((_, idx) => {
+					return <li key={idx}></li>;
+				})}
 		</ul>
 	);
 }
