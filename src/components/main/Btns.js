@@ -17,9 +17,10 @@ function Btns() {
 		const scroll = window.scrollY;
 		const btns = btnRef.current.children;
 		const boxs = btnRef.current.parentElement.querySelectorAll('.myScroll');
+		const base = -window.innerHeight / 2;
 
 		pos.current.forEach((pos, idx) => {
-			if (scroll >= pos) {
+			if (scroll >= pos + base) {
 				for (const btn of btns) btn.classList.remove('on');
 				for (const box of boxs) box.classList.remove('on');
 				btns[idx].classList.add('on');
