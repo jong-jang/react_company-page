@@ -33,6 +33,18 @@ function Btns() {
 		getPos();
 		window.addEventListener('resize', getPos);
 		window.addEventListener('scroll', activation);
+
+		window.scrollTo({ top: 0, behavior: 'smooth' });
+		/*
+		window객체 scrollTo를 써도 되지만
+		콜백기능이 없음
+		new Anime(window, {
+			prop:'scroll',
+			value: 0,
+			duration:500,
+		})
+		*/
+
 		return () => {
 			window.removeEventListener('resize', getPos);
 			window.removeEventListener('scroll', activation);
