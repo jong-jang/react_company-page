@@ -10,16 +10,17 @@ import { useState } from 'react';
 
 function Main() {
 	const [Scrolled, setScrolled] = useState(0);
+	const [Pos, setPos] = useState([]);
 
 	return (
 		<main>
 			<Header type={'main'} />
 			<Visual />
 			<News />
-			<Pics Scrolled={Scrolled} />
+			<Pics Scrolled={Scrolled} Pos={Pos[2]} />
 			<Vids />
 			<Banner />
-			<Btns setScrolled={setScrolled} />
+			<Btns setScrolled={setScrolled} setPos={setPos} />
 		</main>
 	);
 }
