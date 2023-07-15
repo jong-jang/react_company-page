@@ -38,6 +38,7 @@ function Btns() {
 		/*
 		window객체 scrollTo를 써도 되지만
 		콜백기능이 없음
+		SPA이기 때문에 페이지 이동시에 스크롤위치가 그대로기 떄문에 새로고침시 상단으로 이동되게 할 필요가 있음
 		new Anime(window, {
 			prop:'scroll',
 			value: 0,
