@@ -42,6 +42,16 @@ function Contact() {
 		mapInstance.addControl(new kakao.maps.MapTypeControl(), kakao.maps.ControlPosition.TOPRIGHT);
 		mapInstance.addControl(new kakao.maps.ZoomControl(), kakao.maps.ControlPosition.RIGHT);
 		mapInstanceRef.current = mapInstance;
+
+		const setCenter = () => {
+			var moveLatLon = info.current[Index].latlng;
+			mapInstance.setCenter(moveLatLon);
+		};
+
+		window.addEventListener('resize', setCenter);
+		return () => {
+			window.removeEventListener('resize', setCenter);
+		};
 	}, [Index]);
 
 	useEffect(() => {
