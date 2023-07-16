@@ -31,6 +31,7 @@ function Contact() {
 		},
 	]);
 	useEffect(() => {
+		container.current.innerHTML = '';
 		const mapInstance = new kakao.maps.Map(container.current, { center: info.current[Index].latlng, level: 3 });
 		const markerImage = new kakao.maps.MarkerImage(info.current[Index].imgSrc, info.current[Index].imgSize, info.current[Index].imgPos);
 		const marker = new kakao.maps.Marker({
@@ -38,6 +39,8 @@ function Contact() {
 			image: markerImage,
 		});
 		marker.setMap(mapInstance);
+		mapInstance.addControl(new kakao.maps.MapTypeControl(), kakao.maps.ControlPosition.TOPRIGHT);
+		mapInstance.addControl(new kakao.maps.ZoomControl(), kakao.maps.ControlPosition.RIGHT);
 		mapInstanceRef.current = mapInstance;
 	}, [Index]);
 
@@ -56,13 +59,15 @@ function Contact() {
 				{Traffic ? '교통정보 끄기' : '교통정보 보기'}
 			</button>
 
-			<ul>
+			<ul className='branch'>
 				{info.current.map((el, idx) => {
 					return (
 						<li
 							key={idx}
+							className={idx === Index ? 'on' : ''}
 							onClick={() => {
 								setIndex(idx);
+								idx !== Index && setTraffic(false);
 							}}
 						>
 							{el.title}
