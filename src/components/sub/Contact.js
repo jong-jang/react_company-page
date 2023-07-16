@@ -40,10 +40,10 @@ function Contact() {
 
 		emailjs.sendForm('service_k3i1dzt', 'template_14vftwr', form.current, 'x2uVyDYwL20EXj8_v').then(
 			(result) => {
-				console.log(result.text);
+				alert('메일 전송에 성공했습니다');
 			},
 			(error) => {
-				console.log(error.text);
+				alert('메일 전송에 실패했습니다');
 			}
 		);
 	};
