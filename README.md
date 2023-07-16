@@ -1,1 +1,1 @@
-# react_company-page
+# 리액트 기업형 페이지 만들기
