@@ -11,10 +11,14 @@ function Contact() {
 
 	useEffect(() => {
 		const mapInstance = new kakao.maps.Map(container.current, option.current);
+		const markerImage = new kakao.maps.MarkerImage(`${process.env.PUBLIC_URL}/img/marker1.png`, new kakao.maps.Size(232, 99), { offset: new kakao.maps.Point(116, 99) });
 		const marker = new kakao.maps.Marker({
 			position: option.current.center,
+			image: markerImage, // 마커이미지 설정
 		});
+
 		marker.setMap(mapInstance);
+
 		return () => {};
 	}, []);
 
