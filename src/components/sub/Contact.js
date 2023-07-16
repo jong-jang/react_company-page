@@ -1,5 +1,6 @@
 import Layout from '../common/Layout';
 import { useRef, useEffect, useState } from 'react';
+import emailjs from '@emailjs/browser';
 
 function Contact() {
 	const { kakao } = window;
@@ -30,6 +31,23 @@ function Contact() {
 			imgPos: { offset: new kakao.maps.Point(116, 99) },
 		},
 	]);
+	// 이메일 폼
+	const form = useRef();
+
+	// 이메일
+	const sendEmail = (e) => {
+		e.preventDefault();
+
+		emailjs.sendForm('service_k3i1dzt', 'template_14vftwr', form.current, 'x2uVyDYwL20EXj8_v').then(
+			(result) => {
+				console.log(result.text);
+			},
+			(error) => {
+				console.log(error.text);
+			}
+		);
+	};
+
 	useEffect(() => {
 		container.current.innerHTML = '';
 		const mapInstance = new kakao.maps.Map(container.current, { center: info.current[Index].latlng, level: 3 });
@@ -85,6 +103,16 @@ function Contact() {
 					);
 				})}
 			</ul>
+
+			<form ref={form} onSubmit={sendEmail}>
+				<label>이름</label>
+				<input type='text' name='user_name' />
+				<label>이메일</label>
+				<input type='email' name='user_email' />
+				<label>내용</label>
+				<textarea name='message' />
+				<input type='submit' value='Send' />
+			</form>
 		</Layout>
 	);
 }
