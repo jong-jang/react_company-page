@@ -10,7 +10,11 @@ function Contact() {
 	});
 
 	useEffect(() => {
-		var map = new kakao.maps.Map(container.current, option.current);
+		const mapInstance = new kakao.maps.Map(container.current, option.current);
+		const marker = new kakao.maps.Marker({
+			position: option.current.center,
+		});
+		marker.setMap(mapInstance);
 		return () => {};
 	}, []);
 
