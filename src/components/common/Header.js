@@ -7,7 +7,7 @@ function Header({ type }) {
 	return (
 		<header className={type}>
 			<h1>
-				<Link to='/'>LOGO</Link>
+				<Link to='/'>HOHO</Link>
 			</h1>
 			<ul id='gnb'>
 				<li>
