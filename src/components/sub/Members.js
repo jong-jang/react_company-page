@@ -41,7 +41,12 @@ function Members() {
 		e.preventDefault();
 		console.log('현재 state값', Val);
 		// check함수가 반환하는 에러메시지 객체가 없으면 인증 통과, 있으면 인증 실패
-		console.log(check(Val));
+		const errs = check(Val);
+		if (Object.keys(errs).length === 0) {
+			alert('인증성공');
+		} else {
+			alert('인증실패');
+		}
 	};
 
 	useEffect(() => {}, [Val]);
