@@ -16,6 +16,7 @@ function Members() {
 		//property의 name값을 변수로 치환해서 현재 입력하고 있는 input요소의 name값으로 state를 변경
 		setVal({ ...Val, [name]: value });
 	};
+	const handleRadio = (e) => {};
 
 	const check = (value) => {
 		//인수로 현재 state값을 전달받아서 에러메세지 객체를 반환하는 로직
@@ -72,7 +73,7 @@ function Members() {
 								</th>
 								<td>
 									<input type='text' name='userid' placeholder='아이디를 입력하세요' value={Val.userid} onChange={handleChange} />
-									<p>{Err?.userid}</p>
+									{Err?.userid && <p>{Err.userid}</p>}
 								</td>
 							</tr>
 
@@ -83,7 +84,7 @@ function Members() {
 								</th>
 								<td>
 									<input type='password' name='pwd1' placeholder='비밀번호를 입력하세요' value={Val.pwd1} onChange={handleChange} />
-									<p>{Err?.pwd1}</p>
+									{Err?.pwd1 && <p>{Err.pwd1}</p>}
 								</td>
 							</tr>
 
@@ -94,7 +95,7 @@ function Members() {
 								</th>
 								<td>
 									<input type='password' name='pwd2' placeholder='비밀번호를 재입력하세요' value={Val.pwd2} onChange={handleChange} />
-									<p>{Err?.pwd2}</p>
+									{Err?.pwd2 && <p>{Err.pwd2}</p>}
 								</td>
 							</tr>
 
@@ -105,7 +106,7 @@ function Members() {
 								</th>
 								<td>
 									<input type='text' name='email' placeholder='이메일주소를 입력하세요' value={Val.email} onChange={handleChange} />
-									<p>{Err?.email}</p>
+									{Err?.email && <p>{Err.email}</p>}
 								</td>
 							</tr>
 
@@ -114,9 +115,9 @@ function Members() {
 								<th>GENDER</th>
 								<td>
 									<label htmlFor='male'>MAIL</label>
-									<input type='radio' name='mail' id='mail' onChange='handleRadio' />
+									<input type='radio' name='mail' id='mail' onChange={handleRadio} />
 									<label htmlFor='female'>FEMAIL</label>
-									<input type='radio' name='mail' id='femail' onChange='handleRadio' />
+									<input type='radio' name='mail' id='femail' onChange={handleRadio} />
 								</td>
 							</tr>
 
