@@ -10,13 +10,13 @@ function Members() {
 		gender: false,
 		interests: false,
 		edu: '',
+		comments: '',
 	};
 	const [Val, setVal] = useState(initVal);
 	const [Err, setErr] = useState(null);
 
 	const handleChange = (e) => {
 		const { name, value } = e.target;
-		//property의 name값을 변수로 치환해서 현재 입력하고 있는 input요소의 name값으로 state를 변경
 		setVal({ ...Val, [name]: value });
 	};
 	const handleRadio = (e) => {
@@ -34,7 +34,7 @@ function Members() {
 	};
 
 	const check = (value) => {
-		//인수로 현재 state값을 전달받아서 에러메세지 객체를 반환하는 로직
+		// 에러메세지 객체를 반환하는 로직
 		const errs = {};
 		const eng = /[a-zA-Z]/;
 		const num = /[0-9]/;
@@ -61,20 +61,15 @@ function Members() {
 		if (!value.edu) {
 			errs.edu = '최종 학력을 선택해주세요';
 		}
+		if (!value.comments.length < 10) {
+			errs.comments = '10글자 이상 입력해주세요.';
+		}
 		return errs;
 	};
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
-		//check함수가 반환하는 에러메세지 객체가 없으면 인증통과, 있으면 인증 실패
-		const errs = check(Val);
-		//console.log(errs);
-		if (Object.keys(errs).length === 0) {
-			console.log('인증 성공');
-		} else {
-			console.log('인증 실패');
-			setErr(errs);
-		}
+		setErr(check(Val));
 	};
 
 	useEffect(() => {}, []);
@@ -173,6 +168,17 @@ function Members() {
 										<option value='collage'>대학교 졸업</option>
 									</select>
 									{Err?.edu && <p>{Err.edu}</p>}
+								</td>
+							</tr>
+
+							{/* comments */}
+							<tr>
+								<th>
+									<label htmlFor='comments'>COMMENTS</label>
+								</th>
+								<td>
+									<textarea name='comments' id='comments' cols='30' rows='3' value={Val.comments} onChange={handleChange} placeholder='입력해주세요'></textarea>
+									{Err?.comments && <p>{Err.comments}</p>}
 								</td>
 							</tr>
 
