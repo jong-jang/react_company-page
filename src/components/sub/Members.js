@@ -15,12 +15,34 @@ function Members() {
 		setVal({ ...Val, [name]: value });
 	};
 
+	const check = (value) => {
+		//인수로 현재 state값을 전달받아서 에러메시지 객체를 반환하는로직
+		const errs = {};
+		const eng = /[a-zA-z]/;
+		const num = /[0-9]/;
+		const spc = /[!@#$%^&*()_+]/;
+
+		if (value.userId.length < 5) {
+			errs.userid = '아이디를 5글자 이상 입력하세요';
+		}
+		if (value.pwd1.length < 5 || !eng.test(value.pwd1) || !num.test(value.pwd1) || !spc.test(value.pwd1)) {
+			errs.pw1 = '비밀번호는 5글자 이상, 영문, 숫자, 특수문자를 모두 포함하세요';
+		}
+	};
+
+	const handleSubmit = (e) => {
+		e.preventDefault();
+		console.log('현재 state값', Val);
+		// check함수가 반환하는 에러메시지 객체가 없으면 인증 통과, 있으면 인증 실패
+		console.log(check(Val));
+	};
+
 	useEffect(() => {
 		console.log(Val);
 	}, [Val]);
 	return (
 		<Layout name={'Members'}>
-			<form>
+			<form onSubmit={handleSubmit}>
 				<fieldset>
 					<legend className='h'>회원 가입 폼 양식</legend>
 					<table border='1'>
