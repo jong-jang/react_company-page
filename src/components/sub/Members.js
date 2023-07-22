@@ -7,6 +7,8 @@ function Members() {
 		pwd1: '',
 		pwd2: '',
 		email: '',
+		gender: false,
+		interests: false,
 	};
 	const [Val, setVal] = useState(initVal);
 	const [Err, setErr] = useState(null);
@@ -16,7 +18,19 @@ function Members() {
 		//property의 name값을 변수로 치환해서 현재 입력하고 있는 input요소의 name값으로 state를 변경
 		setVal({ ...Val, [name]: value });
 	};
-	const handleRadio = (e) => {};
+	const handleRadio = (e) => {
+		const { name, checked } = e.target;
+		setVal({ ...Val, [name]: checked });
+	};
+
+	const handleCheck = (e) => {
+		const { name } = e.target;
+		let isChecked = false;
+		const inputs = e.target.parentElement.querySelectorAll('input');
+
+		inputs.forEach((el) => el.checked && (isChecked = true));
+		setVal({ ...Val, [name]: isChecked });
+	};
 
 	const check = (value) => {
 		//인수로 현재 state값을 전달받아서 에러메세지 객체를 반환하는 로직
@@ -37,27 +51,30 @@ function Members() {
 		if (value.email.length < 8 || !/@/.test(value.email)) {
 			errs.email = '이메일 주소는 8글자 이상 @를 포함하세요.';
 		}
+		if (!value.gender) {
+			errs.gender = '성별을 체크해주세요.';
+		}
+		if (!value.interests) {
+			errs.interests = '취미를 체크해주세요.';
+		}
 		return errs;
 	};
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
-		console.log('현재 state값', Val);
 		//check함수가 반환하는 에러메세지 객체가 없으면 인증통과, 있으면 인증 실패
 		const errs = check(Val);
 		//console.log(errs);
 		console.log(Object.keys(errs));
 		if (Object.keys(errs).length === 0) {
-			alert('인증 성공');
+			console.log('인증 성공');
 		} else {
-			alert('인증 실패');
+			console.log('인증 실패');
 			setErr(errs);
 		}
 	};
 
-	useEffect(() => {
-		//console.log(Val);
-	}, [Val]);
+	useEffect(() => {}, []);
 
 	return (
 		<Layout name={'Members'}>
@@ -114,10 +131,28 @@ function Members() {
 							<tr>
 								<th>GENDER</th>
 								<td>
-									<label htmlFor='male'>MAIL</label>
-									<input type='radio' name='mail' id='mail' onChange={handleRadio} />
-									<label htmlFor='female'>FEMAIL</label>
-									<input type='radio' name='mail' id='femail' onChange={handleRadio} />
+									<label htmlFor='male'>MALE</label>
+									<input type='radio' name='gender' id='male' onChange={handleRadio} />
+									<label htmlFor='female'>FEMALE</label>
+									<input type='radio' name='gender' id='female' onChange={handleRadio} />
+									{Err?.gender && <p>{Err.gender}</p>}
+								</td>
+							</tr>
+
+							{/* inerests */}
+							<tr>
+								<th>INTERESTS</th>
+								<td>
+									<label htmlFor='sports'>Sports</label>
+									<input type='checkbox' id='sports' name='interests' onChange={handleCheck} />
+
+									<label htmlFor='music'>Music</label>
+									<input type='checkbox' id='music' name='interests' onChange={handleCheck} />
+
+									<label htmlFor='game'>Game</label>
+									<input type='checkbox' id='game' name='interests' onChange={handleCheck} />
+
+									{Err?.interests && <p>{Err.interests}</p>}
 								</td>
 							</tr>
 
