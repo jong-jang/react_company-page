@@ -22,12 +22,19 @@ function Members() {
 		const num = /[0-9]/;
 		const spc = /[!@#$%^&*()_+]/;
 
-		if (value.userId.length < 5) {
+		if (value.userid.length < 5) {
 			errs.userid = '아이디를 5글자 이상 입력하세요';
 		}
 		if (value.pwd1.length < 5 || !eng.test(value.pwd1) || !num.test(value.pwd1) || !spc.test(value.pwd1)) {
 			errs.pw1 = '비밀번호는 5글자 이상, 영문, 숫자, 특수문자를 모두 포함하세요';
 		}
+		if (value.pwd1 !== value.pwd2 || !value.pwd2) {
+			errs.pw2 = '두개의 비밀번호를 동일하게 입력하세요';
+		}
+		if (value.email.length < 8 || !/@/.test(value.email)) {
+			errs.email = '이메일 주소는 8글자 이상 @를 포함하세요';
+		}
+		return errs;
 	};
 
 	const handleSubmit = (e) => {
@@ -37,9 +44,7 @@ function Members() {
 		console.log(check(Val));
 	};
 
-	useEffect(() => {
-		console.log(Val);
-	}, [Val]);
+	useEffect(() => {}, [Val]);
 	return (
 		<Layout name={'Members'}>
 			<form onSubmit={handleSubmit}>
@@ -63,7 +68,7 @@ function Members() {
 									<label htmlFor='pwd1'>PASSWORD</label>
 								</th>
 								<td>
-									<input type='password' name='pwd1' placeholder='비밀번호를 입력하세요' value={Val.pwd1} onChange={handleChange} />
+									<input type='password' name='pwd1' placeholder='비밀번호를 입력하세요' value={Val.pwd1} onChange={handleChange} autoComplete='current-password' />
 								</td>
 							</tr>
 
@@ -73,7 +78,7 @@ function Members() {
 									<label htmlFor='pwd2'>RE-PASSWORD</label>
 								</th>
 								<td>
-									<input type='password' name='pwd2' placeholder='비밀번호를 재입력하세요' value={Val.pwd2} onChange={handleChange} />
+									<input type='password' name='pwd2' placeholder='비밀번호를 재입력하세요' value={Val.pwd2} onChange={handleChange} autoComplete='current-password' />
 								</td>
 							</tr>
 
