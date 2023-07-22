@@ -3,11 +3,15 @@ import { useRef, useEffect, useState } from 'react';
 import emailjs from '@emailjs/browser';
 
 function Contact() {
-	const { kakao } = window;
 	const [Traffic, setTraffic] = useState(false);
+	const [Index, setIndex] = useState(0);
 	const container = useRef(null);
 	const mapInstanceRef = useRef(null);
-	const [Index, setIndex] = useState(0);
+	const form = useRef(null);
+	const inputName = useRef(null);
+	const inputEmail = useRef(null);
+	const textarea = useRef(null);
+	const { kakao } = window;
 	const info = useRef([
 		{
 			title: '삼성역 코엑스',
@@ -31,19 +35,22 @@ function Contact() {
 			imgPos: { offset: new kakao.maps.Point(116, 99) },
 		},
 	]);
-	// 이메일 폼
-	const form = useRef();
 
-	// 이메일
 	const sendEmail = (e) => {
 		e.preventDefault();
 
-		emailjs.sendForm('service_k3i1dzt', 'template_14vftwr', form.current, 'x2uVyDYwL20EXj8_v').then(
+		emailjs.sendForm('service_c8hl9f8', 'template_au1enk7', form.current, '23g8RepczesqKPoIX').then(
 			(result) => {
-				alert('메일 전송에 성공했습니다');
+				alert('메일전송에 성공했습니다.');
+				inputName.current.value = '';
+				inputEmail.current.value = '';
+				textarea.current.value = '';
 			},
 			(error) => {
-				alert('메일 전송에 실패했습니다');
+				alert('메일전송에 실패했습니다.');
+				inputName.current.value = '';
+				inputEmail.current.value = '';
+				textarea.current.value = '';
 			}
 		);
 	};
@@ -52,24 +59,24 @@ function Contact() {
 		container.current.innerHTML = '';
 		const mapInstance = new kakao.maps.Map(container.current, { center: info.current[Index].latlng, level: 3 });
 		const markerImage = new kakao.maps.MarkerImage(info.current[Index].imgSrc, info.current[Index].imgSize, info.current[Index].imgPos);
+
 		const marker = new kakao.maps.Marker({
 			position: info.current[Index].latlng,
 			image: markerImage,
 		});
+
 		marker.setMap(mapInstance);
 		mapInstance.addControl(new kakao.maps.MapTypeControl(), kakao.maps.ControlPosition.TOPRIGHT);
 		mapInstance.addControl(new kakao.maps.ZoomControl(), kakao.maps.ControlPosition.RIGHT);
 		mapInstanceRef.current = mapInstance;
 
 		const setCenter = () => {
-			var moveLatLon = info.current[Index].latlng;
-			mapInstance.setCenter(moveLatLon);
+			console.log('setCenter');
+			mapInstance.setCenter(info.current[Index].latlng);
 		};
 
 		window.addEventListener('resize', setCenter);
-		return () => {
-			window.removeEventListener('resize', setCenter);
-		};
+		return () => window.removeEventListener('resize', setCenter);
 	}, [Index]);
 
 	useEffect(() => {
@@ -79,25 +86,12 @@ function Contact() {
 	return (
 		<Layout name={'Contact'}>
 			<div id='map' ref={container}></div>
-			<button
-				onClick={() => {
-					setTraffic(!Traffic);
-				}}
-			>
-				{Traffic ? '교통정보 끄기' : '교통정보 보기'}
-			</button>
+			<button onClick={() => setTraffic(!Traffic)}>{Traffic ? 'Traffic ON' : 'Traffic OFF'}</button>
 
 			<ul className='branch'>
 				{info.current.map((el, idx) => {
 					return (
-						<li
-							key={idx}
-							className={idx === Index ? 'on' : ''}
-							onClick={() => {
-								setIndex(idx);
-								idx !== Index && setTraffic(false);
-							}}
-						>
+						<li key={idx} className={idx === Index ? 'on' : ''} onClick={() => setIndex(idx)}>
 							{el.title}
 						</li>
 					);
@@ -105,12 +99,12 @@ function Contact() {
 			</ul>
 
 			<form ref={form} onSubmit={sendEmail}>
-				<label>이름</label>
-				<input type='text' name='user_name' />
-				<label>이메일</label>
-				<input type='email' name='user_email' />
-				<label>내용</label>
-				<textarea name='message' />
+				<label>Name</label>
+				<input type='text' name='user_name' ref={inputName} />
+				<label>Email</label>
+				<input type='email' name='user_email' ref={inputEmail} />
+				<label>Message</label>
+				<textarea name='message' ref={textarea} />
 				<input type='submit' value='Send' />
 			</form>
 		</Layout>
