@@ -9,6 +9,7 @@ function Members() {
 		email: '',
 		gender: false,
 		interests: false,
+		edu: '',
 	};
 	const [Val, setVal] = useState(initVal);
 	const [Err, setErr] = useState(null);
@@ -57,6 +58,9 @@ function Members() {
 		if (!value.interests) {
 			errs.interests = '취미를 체크해주세요.';
 		}
+		if (!value.edu) {
+			errs.edu = '최종 학력을 선택해주세요';
+		}
 		return errs;
 	};
 
@@ -65,7 +69,6 @@ function Members() {
 		//check함수가 반환하는 에러메세지 객체가 없으면 인증통과, 있으면 인증 실패
 		const errs = check(Val);
 		//console.log(errs);
-		console.log(Object.keys(errs));
 		if (Object.keys(errs).length === 0) {
 			console.log('인증 성공');
 		} else {
@@ -153,6 +156,23 @@ function Members() {
 									<input type='checkbox' id='game' name='interests' onChange={handleCheck} />
 
 									{Err?.interests && <p>{Err.interests}</p>}
+								</td>
+							</tr>
+
+							{/* edu */}
+							<tr>
+								<th>
+									<label htmlFor='edu'>EDUCATION</label>
+								</th>
+								<td>
+									<select name='edu' id='educ' onChange={handleChange}>
+										<option value=''>최종학력을 선택하세요.</option>
+										<option value='elementary-school'>초등학교 졸업</option>
+										<option value='middle-school'>중학교 졸업</option>
+										<option value='high-school'>고등학교 졸업</option>
+										<option value='collage'>대학교 졸업</option>
+									</select>
+									{Err?.edu && <p>{Err.edu}</p>}
 								</td>
 							</tr>
 
