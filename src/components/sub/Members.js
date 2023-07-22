@@ -36,6 +36,10 @@ function Members() {
 		setVal({ ...Val, [name]: isChecked });
 	};
 
+	const resetFrom = () => {
+		setVal(initVal);
+	};
+
 	const check = (value) => {
 		// 에러메세지 객체를 반환하는 로직
 		const errs = {};
@@ -86,6 +90,7 @@ function Members() {
 
 	return (
 		<Layout name={'Members'}>
+			<button onClick={() => history.goBack()}>이전페이지 가기</button>
 			<form onSubmit={handleSubmit}>
 				<fieldset>
 					<legend className='h'>회원 가입 폼 양식</legend>
@@ -195,7 +200,7 @@ function Members() {
 							{/* btnSet */}
 							<tr>
 								<th colSpan='2'>
-									<input type='reset' value='CANCEL' />
+									<input type='reset' value='CANCEL' onClick={resetFrom} />
 									<input type='submit' value='SEND' />
 								</th>
 							</tr>
