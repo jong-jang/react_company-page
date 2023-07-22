@@ -1,7 +1,9 @@
 import { useState, useEffect } from 'react';
 import Layout from '../common/Layout';
+import { useHistory } from 'react-router-dom';
 
 function Members() {
+	const history = useHistory();
 	const initVal = {
 		userid: '',
 		pwd1: '',
@@ -13,7 +15,8 @@ function Members() {
 		comments: '',
 	};
 	const [Val, setVal] = useState(initVal);
-	const [Err, setErr] = useState(null);
+	const [Err, setErr] = useState({});
+	const [Submit, setSubmit] = useState(false);
 
 	const handleChange = (e) => {
 		const { name, value } = e.target;
@@ -61,7 +64,7 @@ function Members() {
 		if (!value.edu) {
 			errs.edu = '최종 학력을 선택해주세요';
 		}
-		if (!value.comments.length < 10) {
+		if (value.comments.length < 10) {
 			errs.comments = '10글자 이상 입력해주세요.';
 		}
 		return errs;
@@ -70,9 +73,16 @@ function Members() {
 	const handleSubmit = (e) => {
 		e.preventDefault();
 		setErr(check(Val));
+		setSubmit(true);
 	};
 
-	useEffect(() => {}, []);
+	useEffect(() => {
+		const len = Object.keys(Err).length;
+		if (len === 0 && Submit) {
+			alert('모든 인증을 통과했습니다');
+			history.push('/');
+		}
+	}, [Err]);
 
 	return (
 		<Layout name={'Members'}>
