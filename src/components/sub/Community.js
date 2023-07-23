@@ -2,19 +2,10 @@ import { useEffect, useRef, useState } from 'react';
 import Layout from '../common/Layout';
 
 function Community() {
-	const dummy = useRef([
-		{ title: 'hello5', content: 'Here comes description in detail.' },
-		{ title: 'hello4', content: 'Here comes description in detail.' },
-		{ title: 'hello3', content: 'Here comes description in detail.' },
-		{ title: 'hello2', content: 'Here comes description in detail.' },
-		{ title: 'hello1', content: 'Here comes description in detail.' },
-	]);
 	const getLocalData = () => {
 		const data = localStorage.getItem('post');
-		if (data) return JSON.parse(data);
-		else return dummy.current;
+		return JSON.parse(data);
 	};
-
 	const input = useRef(null);
 	const textarea = useRef(null);
 	const editInput = useRef(null);
