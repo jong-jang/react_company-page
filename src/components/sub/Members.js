@@ -24,7 +24,7 @@ function Members() {
 	};
 
 	const handleCheck = (e) => {
-		const { name, value } = e.target;
+		const { name } = e.target;
 		let checkArr = [];
 		const inputs = e.target.parentElement.querySelectorAll('input');
 
@@ -62,7 +62,7 @@ function Members() {
 		if (!value.gender) {
 			errs.gender = '성별을 체크해주세요.';
 		}
-		if (!value.interests) {
+		if (value.interests.length === 0) {
 			errs.interests = '취미를 체크해주세요.';
 		}
 		if (!value.edu) {
@@ -86,7 +86,6 @@ function Members() {
 			alert('모든 인증을 통과했습니다');
 			history.push('/');
 		}
-		console.log(Val);
 	}, [Err]);
 
 	return (
@@ -146,9 +145,9 @@ function Members() {
 								<th>GENDER</th>
 								<td>
 									<label htmlFor='male'>MALE</label>
-									<input type='radio' name='gender' id='male' onChange={handleChange} value='male' />
+									<input type='radio' name='gender' id='male' onChange={handleChange} defaultValue='male' />
 									<label htmlFor='female'>FEMALE</label>
-									<input type='radio' name='gender' id='female' onChange={handleChange} value='female' />
+									<input type='radio' name='gender' id='female' onChange={handleChange} defaultValue='female' />
 									{Err?.gender && <p>{Err.gender}</p>}
 								</td>
 							</tr>
@@ -158,13 +157,13 @@ function Members() {
 								<th>INTERESTS</th>
 								<td>
 									<label htmlFor='sports'>Sports</label>
-									<input type='checkbox' id='sports' name='interests' value='sports' onChange={handleCheck} />
+									<input type='checkbox' id='sports' name='interests' defaultValue='sports' onChange={handleCheck} />
 
 									<label htmlFor='music'>Music</label>
-									<input type='checkbox' id='music' name='interests' value='music' onChange={handleCheck} />
+									<input type='checkbox' id='music' name='interests' defaultValue='music' onChange={handleCheck} />
 
 									<label htmlFor='game'>Game</label>
-									<input type='checkbox' id='game' name='interests' value='game' onChange={handleCheck} />
+									<input type='checkbox' id='game' name='interests' defaultValue='game' onChange={handleCheck} />
 
 									{Err?.interests && <p>{Err.interests}</p>}
 								</td>
@@ -177,11 +176,11 @@ function Members() {
 								</th>
 								<td>
 									<select name='edu' id='educ' onChange={handleChange}>
-										<option value=''>최종학력을 선택하세요.</option>
-										<option value='elementary-school'>초등학교 졸업</option>
-										<option value='middle-school'>중학교 졸업</option>
-										<option value='high-school'>고등학교 졸업</option>
-										<option value='collage'>대학교 졸업</option>
+										<option defaultValue=''>최종학력을 선택하세요.</option>
+										<option defaultValue='elementary-school'>초등학교 졸업</option>
+										<option defaultValue='middle-school'>중학교 졸업</option>
+										<option defaultValue='high-school'>고등학교 졸업</option>
+										<option defaultValue='collage'>대학교 졸업</option>
 									</select>
 									{Err?.edu && <p>{Err.edu}</p>}
 								</td>
