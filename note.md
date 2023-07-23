@@ -202,3 +202,6 @@
 ## localStroge
 
 - 모든 브라우저가 가지고 있는 경량의 저장소 (문자열 : 5MB)
+- localStorage.setItem({key:'value'}) : 값 저장
+- localStorage.getItem(key) : 값 불러오기
+- 저장할 때는 문자화 해서 저장, 불러올 때는 data parsing
