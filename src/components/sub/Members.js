@@ -86,7 +86,7 @@ function Members() {
 			alert('모든 인증을 통과했습니다');
 			history.push('/');
 		}
-	}, [Err]);
+	}, [Err, history, Submit]);
 
 	return (
 		<Layout name={'Members'}>
