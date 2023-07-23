@@ -1,12 +1,18 @@
-import { useRef, useState, useEffect } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Layout from '../common/Layout';
 
 function Community() {
+	const getLocalData = () => {
+		const data = localStorage.getItem('post');
+		if (data) return JSON.parse(data);
+		else return [];
+	};
+
 	const input = useRef(null);
 	const textarea = useRef(null);
 	const editInput = useRef(null);
 	const editTextarea = useRef(null);
-	const [Posts, setPosts] = useState([]);
+	const [Posts, setPosts] = useState(getLocalData());
 	const [Allowed, setAllowed] = useState(true);
 
 	const resetForm = () => {
@@ -68,6 +74,10 @@ function Community() {
 			})
 		);
 	};
+
+	useEffect(() => {
+		localStorage.setItem('post', JSON.stringify(Posts));
+	}, [Posts]);
 
 	return (
 		<Layout name={'Community'}>
