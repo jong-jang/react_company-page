@@ -196,3 +196,9 @@
 
 - onChange 이벤트로 제어하지 않는 input요소의 value는 defaultValue속성으로 지정
 - value: 리액트에서 관리되는 값, defaultValue: 일반DOM에 의해 관리되는 값
+
+<hr>
+
+## localStroge
+
+- 모든 브라우저가 가지고 있는 경량의 저장소 (문자열 : 5MB)
