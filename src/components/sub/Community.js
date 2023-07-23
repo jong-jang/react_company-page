@@ -5,6 +5,7 @@ function Community() {
 	const input = useRef(null);
 	const textarea = useRef(null);
 	const [Posts, setPosts] = useState([]);
+	const [Allowed, setAllowed] = useState(true);
 
 	const resetForm = () => {
 		input.current.value = '';
@@ -27,6 +28,10 @@ function Community() {
 	};
 
 	const enableUpdate = (editIndex) => {
+		// 수정모드 진입 함수 호출시 Allowed값이 true가 아니면 함수 중지
+		if (!Allowed) return;
+		// 일단 수정모드 기능이 실행되면 Allowed값을 false바꿔서 이후부터는 다시 수정모드로 진입되는 것을 방지
+		setAllowed(false);
 		setPosts(
 			Posts.map((post, postIndex) => {
 				if (editIndex === postIndex) post.enableUpdate = true;
@@ -41,6 +46,8 @@ function Community() {
 				return post;
 			})
 		);
+		// 글수정취소 함수 호출시 Allowed값을 다시 true로 바꿔서 글수정 가능하게 처리
+		setAllowed(true);
 	};
 
 	return (
