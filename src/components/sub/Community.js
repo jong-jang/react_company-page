@@ -35,10 +35,6 @@ function Community() {
 		);
 	};
 
-	useEffect(() => {
-		console.log(Posts);
-	}, [Posts]);
-
 	return (
 		<Layout name={'Community'}>
 			<div className='inputBox'>
@@ -59,8 +55,19 @@ function Community() {
 						<article key={idx}>
 							{post.enableUpdate ? (
 								//수정모드
+								// onChange 이벤트로 제어하지 않는 input요소의 value는 defaultValue속성으로 지정
+								// value: 리액트에서 관리되는 값, defaultValue: 일반DOM에 의해 관리되는 값
 								<>
-									<p>수정모드 출력</p>
+									<div className='txt'>
+										<input type='text' defaultValue={post.title} />
+										<br />
+										<textarea cols='30' rows='3' defaultValue={post.content}></textarea>
+									</div>
+
+									<nav className='btnSet'>
+										<button>CANCLE</button>
+										<button>UPDATE</button>
+									</nav>
 								</>
 							) : (
 								//출력 모드
