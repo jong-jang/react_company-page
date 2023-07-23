@@ -70,8 +70,6 @@ function Community() {
 						<article key={idx}>
 							{post.enableUpdate ? (
 								//수정모드
-								// onChange 이벤트로 제어하지 않는 input요소의 value는 defaultValue속성으로 지정
-								// value: 리액트에서 관리되는 값, defaultValue: 일반DOM에 의해 관리되는 값
 								<>
 									<div className='txt'>
 										<input type='text' defaultValue={post.title} />
@@ -113,18 +111,3 @@ function Community() {
 }
 
 export default Community;
-
-/*
-	Create - 데이터저장 (게시글 저장)
-	Read - 데이터호출 (게시글 보기)
-	Update - 데이터수정 (게시글 수정)
-	Delete - 데이터삭제 (게시글 삭제)
-
-	localStorage: 모든 브라우저가 가지고 있는 경량의 저장소 (문자열 : 5MB)
-
-	수정 모드 작업 흐름
-	1- 수정 버튼 클릭시 해당순번의 Post객체에 수정관련 property추가
-	2- map으로 반복처리시 수정관련 propery유무에 따라 수정모드, 출력모드 구분해서 렌더링 처리
-	3- 출력모드: h2, p로 출력 / 수정모드: input, textarea에 수정될값을 담아서 출력 (수정취소, 수정 버튼 추가)
-	4- 수정모드에 수정버튼 클릭시 State값을 최종적으로 변경하고 해당 Post객체의 수정관련 property값을 출력모드로 변경
-*/
