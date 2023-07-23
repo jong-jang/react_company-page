@@ -189,3 +189,10 @@
 ## useImperativeHandle
 
 - forwardRef문 안쪽에서 JSX를 역으로 반환하는것이 아닌 특정 객체를 반환처리
+
+<hr>
+
+## value와 defaultValue
+
+- onChange 이벤트로 제어하지 않는 input요소의 value는 defaultValue속성으로 지정
+- value: 리액트에서 관리되는 값, defaultValue: 일반DOM에 의해 관리되는 값
