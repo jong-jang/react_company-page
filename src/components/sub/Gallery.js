@@ -38,7 +38,6 @@ function Gallery() {
 		imgs.forEach((img) => {
 			img.onload = () => {
 				++counter;
-
 				if (counter === imgs.length - 2) {
 					setLoader(false);
 					frame.current.classList.add('on');
@@ -50,36 +49,37 @@ function Gallery() {
 		});
 	};
 
+	const showInterest = (e) => {
+		if (e.target.classList.contains('on')) return;
+		if (!enableEvent.current) return;
+		enableEvent.current = false;
+		resetGallery(e);
+		getFlickr({ type: 'interest' });
+	};
+	const showMine = (e) => {
+		if (e.target.classList.contains('on')) return;
+		if (!enableEvent.current) return;
+		enableEvent.current = false;
+		resetGallery(e);
+		getFlickr({ type: 'user', user: '198837106@N07' });
+	};
+	const showUser = (e) => {
+		if (e.target.classList.contains('on')) return;
+		if (!enableEvent.current) return;
+		enableEvent.current = false;
+		resetGallery(e);
+		getFlickr({ type: 'user', user: e.target.innerText });
+	};
+
 	useEffect(() => {
-		//getFlickr({ type: 'interest' });
-		//getFlickr({ type: 'search', tags: 'landscape' });
 		getFlickr({ type: 'user', user: '198837106@N07' });
 	}, []);
 
 	return (
 		<Layout name={'Gallery'}>
 			<nav ref={btnSet}>
-				<button
-					onClick={(e) => {
-						if (e.target.classList.contains('on')) return;
-						if (!enableEvent.current) return;
-						enableEvent.current = false;
-						resetGallery(e);
-						getFlickr({ type: 'interest' });
-					}}
-				>
-					Interest Gallery
-				</button>
-				<button
-					className='on'
-					onClick={(e) => {
-						if (e.target.classList.contains('on')) return;
-						if (!enableEvent.current) return;
-						enableEvent.current = false;
-						resetGallery(e);
-						getFlickr({ type: 'user', user: '198837106@N07' });
-					}}
-				>
+				<button onClick={showInterest}>Interest Gallery</button>
+				<button className='on' onClick={showMine}>
 					My Gallery
 				</button>
 			</nav>
@@ -101,17 +101,7 @@ function Gallery() {
 											alt={item.owner}
 											onError={(e) => e.target.setAttribute('src', 'https://www.flickr.com/images/buddyicon.gif')}
 										/>
-										<span
-											onClick={(e) => {
-												if (e.target.classList.contains('on')) return;
-												if (!enableEvent.current) return;
-												enableEvent.current = false;
-												resetGallery(e);
-												getFlickr({ type: 'user', user: e.target.innerText });
-											}}
-										>
-											{item.owner}
-										</span>
+										<span onClick={showUser}>{item.owner}</span>
 									</div>
 								</div>
 							</article>
