@@ -4,6 +4,7 @@ import Masonry from 'react-masonry-component';
 import { useState, useEffect, useRef } from 'react';
 
 function Gallery() {
+	const enableEvent = useRef(null);
 	const frame = useRef(null);
 	const btnSet = useRef(null);
 	const [Items, setItems] = useState([]);
@@ -41,6 +42,9 @@ function Gallery() {
 				if (counter === imgs.length - 2) {
 					setLoader(false);
 					frame.current.classList.add('on');
+					setTimeout(() => {
+						enableEvent.current = true;
+					}, 500);
 				}
 			};
 		});
@@ -58,6 +62,8 @@ function Gallery() {
 				<button
 					onClick={(e) => {
 						if (e.target.classList.contains('on')) return;
+						if (!enableEvent.current) return;
+						enableEvent.current = false;
 						resetGallery(e);
 						getFlickr({ type: 'interest' });
 					}}
@@ -68,6 +74,8 @@ function Gallery() {
 					className='on'
 					onClick={(e) => {
 						if (e.target.classList.contains('on')) return;
+						if (!enableEvent.current) return;
+						enableEvent.current = false;
 						resetGallery(e);
 						getFlickr({ type: 'user', user: '198837106@N07' });
 					}}
@@ -96,6 +104,8 @@ function Gallery() {
 										<span
 											onClick={(e) => {
 												if (e.target.classList.contains('on')) return;
+												if (!enableEvent.current) return;
+												enableEvent.current = false;
 												resetGallery(e);
 												getFlickr({ type: 'user', user: e.target.innerText });
 											}}
