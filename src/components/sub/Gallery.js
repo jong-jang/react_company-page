@@ -5,8 +5,17 @@ import { useState, useEffect, useRef } from 'react';
 
 function Gallery() {
 	const frame = useRef(null);
+	const btnSet = useRef(null);
 	const [Items, setItems] = useState([]);
 	const [Loader, setLoader] = useState(true);
+
+	const resetGallery = (e) => {
+		const btns = btnSet.current.querySelectorAll('button');
+		btns.forEach((btn) => btn.classList.remove('on'));
+		e.target.classList.add('on');
+		setLoader(true);
+		frame.current.classList.remove('on');
+	};
 
 	const getFlickr = async (opt) => {
 		let counter = 0;
@@ -45,24 +54,27 @@ function Gallery() {
 
 	return (
 		<Layout name={'Gallery'}>
-			<button
-				onClick={() => {
-					setLoader(true);
-					frame.current.classList.remove('on');
-					getFlickr({ type: 'interest' });
-				}}
-			>
-				Interest Gallery
-			</button>
-			<button
-				onClick={() => {
-					setLoader(true);
-					frame.current.classList.remove('on');
-					getFlickr({ type: 'user', user: '198837106@N07' });
-				}}
-			>
-				My Gallery
-			</button>
+			<nav ref={btnSet}>
+				<button
+					onClick={(e) => {
+						if (e.target.classList.contains('on')) return;
+						resetGallery(e);
+						getFlickr({ type: 'interest' });
+					}}
+				>
+					Interest Gallery
+				</button>
+				<button
+					className='on'
+					onClick={(e) => {
+						if (e.target.classList.contains('on')) return;
+						resetGallery(e);
+						getFlickr({ type: 'user', user: '198837106@N07' });
+					}}
+				>
+					My Gallery
+				</button>
+			</nav>
 			{Loader && <img className='loader' src={`${process.env.PUBLIC_URL}/img/loading.gif`} alt='loader' />}
 			<div className='frame' ref={frame}>
 				<Masonry elementType={'div'} options={{ transitionDuration: '0.5s' }}>
@@ -83,8 +95,8 @@ function Gallery() {
 										/>
 										<span
 											onClick={(e) => {
-												setLoader(true);
-												frame.current.classList.remove('on');
+												if (e.target.classList.contains('on')) return;
+												resetGallery(e);
 												getFlickr({ type: 'user', user: e.target.innerText });
 											}}
 										>
