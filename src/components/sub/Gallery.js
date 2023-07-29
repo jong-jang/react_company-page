@@ -5,7 +5,6 @@ import { useState, useEffect, useRef } from 'react';
 
 function Gallery() {
 	const frame = useRef(null);
-
 	const [Items, setItems] = useState([]);
 	const [Loader, setLoader] = useState(true);
 
@@ -39,13 +38,31 @@ function Gallery() {
 	};
 
 	useEffect(() => {
-		getFlickr({ type: 'interest' });
+		//getFlickr({ type: 'interest' });
 		//getFlickr({ type: 'search', tags: 'landscape' });
-		//getFlickr({ type: 'user', user: '198837106@N07' });
+		getFlickr({ type: 'user', user: '198837106@N07' });
 	}, []);
 
 	return (
 		<Layout name={'Gallery'}>
+			<button
+				onClick={() => {
+					setLoader(true);
+					frame.current.classList.remove('on');
+					getFlickr({ type: 'interest' });
+				}}
+			>
+				Interest Gallery
+			</button>
+			<button
+				onClick={() => {
+					setLoader(true);
+					frame.current.classList.remove('on');
+					getFlickr({ type: 'user', user: '198837106@N07' });
+				}}
+			>
+				My Gallery
+			</button>
 			{Loader && <img className='loader' src={`${process.env.PUBLIC_URL}/img/loading.gif`} alt='loader' />}
 			<div className='frame' ref={frame}>
 				<Masonry elementType={'div'} options={{ transitionDuration: '0.5s' }}>
