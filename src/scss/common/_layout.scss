@@ -9,6 +9,7 @@
 		transition: opacity 1s 0.3s;
 	}
 	> .inner {
+		position: relative;
 		padding: 100px 10vw;
 		min-height: 600px;
 		opacity: 0;
