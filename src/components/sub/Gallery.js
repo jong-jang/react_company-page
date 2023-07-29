@@ -8,7 +8,7 @@ function Gallery() {
 
 	const getFlickr = async (opt) => {
 		const key = '540e875989ee5c74090556f957686df1';
-		const num = 20;
+		const num = 500;
 		const baseURL = `https://www.flickr.com/services/rest/?format=json&nojsoncallback=1&api_key=${key}&per_page=${num}`;
 		const method_interest = 'flickr.interestingness.getList';
 		const method_search = 'flickr.photos.search';
@@ -27,10 +27,6 @@ function Gallery() {
 		//getFlickr({ type: 'search', tags: 'landscape' });
 		//getFlickr({ type: 'user', user: '198837106@N07' });
 	}, []);
-
-	useEffect(() => {
-		console.log(Items);
-	}, [Items]);
 
 	return (
 		<Layout name={'Gallery'}>
