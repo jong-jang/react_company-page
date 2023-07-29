@@ -1,14 +1,18 @@
 import Layout from '../common/Layout';
 import axios from 'axios';
 import Masonry from 'react-masonry-component';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 function Gallery() {
+	const frame = useRef(null);
+
 	const [Items, setItems] = useState([]);
+	const [Loader, setLoader] = useState(true);
 
 	const getFlickr = async (opt) => {
+		let counter = 0;
 		const key = '540e875989ee5c74090556f957686df1';
-		const num = 500;
+		const num = 50;
 		const baseURL = `https://www.flickr.com/services/rest/?format=json&nojsoncallback=1&api_key=${key}&per_page=${num}`;
 		const method_interest = 'flickr.interestingness.getList';
 		const method_search = 'flickr.photos.search';
@@ -20,6 +24,18 @@ function Gallery() {
 
 		const result = await axios.get(url);
 		setItems(result.data.photos.photo);
+
+		const imgs = frame.current.querySelectorAll('img');
+		imgs.forEach((img) => {
+			img.onload = () => {
+				++counter;
+
+				if (counter === imgs.length - 2) {
+					setLoader(false);
+					frame.current.classList.add('on');
+				}
+			};
+		});
 	};
 
 	useEffect(() => {
@@ -30,7 +46,8 @@ function Gallery() {
 
 	return (
 		<Layout name={'Gallery'}>
-			<div className='frame'>
+			{Loader && <img className='loader' src={`${process.env.PUBLIC_URL}/img/loading.gif`} alt='loader' />}
+			<div className='frame' ref={frame}>
 				<Masonry elementType={'div'} options={{ transitionDuration: '0.5s' }}>
 					{Items.map((item) => {
 						return (
@@ -47,7 +64,15 @@ function Gallery() {
 											alt={item.owner}
 											onError={(e) => e.target.setAttribute('src', 'https://www.flickr.com/images/buddyicon.gif')}
 										/>
-										<span>{item.owner}</span>
+										<span
+											onClick={(e) => {
+												setLoader(true);
+												frame.current.classList.remove('on');
+												getFlickr({ type: 'user', user: e.target.innerText });
+											}}
+										>
+											{item.owner}
+										</span>
 									</div>
 								</div>
 							</article>
