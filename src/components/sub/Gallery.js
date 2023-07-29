@@ -115,5 +115,7 @@ function Gallery() {
 
 export default Gallery;
 
-// 540e875989ee5c74090556f957686df1
-// 198837106@N07
+/*  id, key
+id  - 198837106@N07
+key	- 540e875989ee5c74090556f957686df1
+*/
