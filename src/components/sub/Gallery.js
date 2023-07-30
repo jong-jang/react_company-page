@@ -4,15 +4,16 @@ import Masonry from 'react-masonry-component';
 import { useState, useEffect, useRef } from 'react';
 
 function Gallery() {
+	const isUser = useRef(true);
 	const enableEvent = useRef(null);
 	const frame = useRef(null);
 	const btnSet = useRef(null);
 	const searchInput = useRef(null);
 	const [Items, setItems] = useState([]);
 	const [Loader, setLoader] = useState(true);
-	const [Null, setNull] = useState(false);
 
 	const resetGallery = (e) => {
+		isUser.current = false;
 		const btns = btnSet.current.querySelectorAll('button');
 		btns.forEach((btn) => btn.classList.remove('on'));
 		e.target.classList.add('on');
@@ -45,6 +46,7 @@ function Gallery() {
 		imgs.forEach((img) => {
 			img.onload = () => {
 				++counter;
+				console.log(counter);
 				if (counter === imgs.length - 2) {
 					setLoader(false);
 					frame.current.classList.add('on');
@@ -69,6 +71,7 @@ function Gallery() {
 		enableEvent.current = false;
 		resetGallery(e);
 		getFlickr({ type: 'user', user: '198837106@N07' });
+		isUser.current = true;
 	};
 	const showUser = (e) => {
 		if (e.target.classList.contains('on')) return;
@@ -76,6 +79,7 @@ function Gallery() {
 		enableEvent.current = false;
 		resetGallery(e);
 		getFlickr({ type: 'user', user: e.target.innerText });
+		isUser.current = true;
 	};
 	const showSearch = (e) => {
 		e.preventDefault();
@@ -124,7 +128,13 @@ function Gallery() {
 											alt={item.owner}
 											onError={(e) => e.target.setAttribute('src', 'https://www.flickr.com/images/buddyicon.gif')}
 										/>
-										<span onClick={showUser}>{item.owner}</span>
+										<span
+											onClick={(e) => {
+												!isUser.current && showUser(e);
+											}}
+										>
+											{item.owner}
+										</span>
 									</div>
 								</div>
 							</article>
