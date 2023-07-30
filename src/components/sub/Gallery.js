@@ -2,8 +2,10 @@ import Layout from '../common/Layout';
 import axios from 'axios';
 import Masonry from 'react-masonry-component';
 import { useState, useEffect, useRef } from 'react';
+import Modal from '../common/Modal';
 
 function Gallery() {
+	const openModal = useRef(null);
 	const isUser = useRef(true);
 	const enableEvent = useRef(null);
 	const frame = useRef(null);
@@ -11,6 +13,7 @@ function Gallery() {
 	const searchInput = useRef(null);
 	const [Items, setItems] = useState([]);
 	const [Loader, setLoader] = useState(true);
+	const [Index, setIndex] = useState(0);
 
 	const resetGallery = (e) => {
 		isUser.current = false;
@@ -96,52 +99,64 @@ function Gallery() {
 	}, []);
 
 	return (
-		<Layout name={'Gallery'}>
-			<nav ref={btnSet}>
-				<button onClick={showInterest}>Interest Gallery</button>
-				<button className='on' onClick={showMine}>
-					My Gallery
-				</button>
-			</nav>
-			<div className='searchBox'>
-				<form onSubmit={showSearch}>
-					<input type='text' placeholder='검색어를 입력하세요' ref={searchInput} />
-					<button>Search</button>
-				</form>
-			</div>
-			{Loader && <img className='loader' src={`${process.env.PUBLIC_URL}/img/loading.gif`} alt='loader' />}
-			<div className='frame' ref={frame}>
-				<Masonry elementType={'div'} options={{ transitionDuration: '0.5s' }}>
-					{Items.map((item) => {
-						return (
-							<article key={item.id}>
-								<div className='inner'>
-									<div className='pic'>
-										<img src={`https://live.staticflickr.com/${item.server}/${item.id}_${item.secret}_m.jpg`} alt={`https://live.staticflickr.com/${item.server}/${item.id}_${item.secret}_b.jpg`} />
-									</div>
-									<h2>{item.title}</h2>
+		<>
+			<Layout name={'Gallery'}>
+				<nav ref={btnSet}>
+					<button onClick={showInterest}>Interest Gallery</button>
+					<button className='on' onClick={showMine}>
+						My Gallery
+					</button>
+				</nav>
+				<div className='searchBox'>
+					<form onSubmit={showSearch}>
+						<input type='text' placeholder='검색어를 입력하세요' ref={searchInput} />
+						<button>Search</button>
+					</form>
+				</div>
+				{Loader && <img className='loader' src={`${process.env.PUBLIC_URL}/img/loading.gif`} alt='loader' />}
+				<div className='frame' ref={frame}>
+					<Masonry elementType={'div'} options={{ transitionDuration: '0.5s' }}>
+						{Items.map((item, idx) => {
+							return (
+								<article key={item.id}>
+									<div className='inner'>
+										<div className='pic'>
+											<img
+												src={`https://live.staticflickr.com/${item.server}/${item.id}_${item.secret}_m.jpg`}
+												alt={item.title}
+												onClick={() => {
+													openModal.current.open();
+													setIndex(idx);
+												}}
+											/>
+										</div>
+										<h2>{item.title}</h2>
 
-									<div className='profile'>
-										<img
-											src={`http://farm${item.farm}.staticflickr.com/${item.server}/buddyicons/${item.owner}.jpg`}
-											alt={item.owner}
-											onError={(e) => e.target.setAttribute('src', 'https://www.flickr.com/images/buddyicon.gif')}
-										/>
-										<span
-											onClick={(e) => {
-												!isUser.current && showUser(e);
-											}}
-										>
-											{item.owner}
-										</span>
+										<div className='profile'>
+											<img
+												src={`http://farm${item.farm}.staticflickr.com/${item.server}/buddyicons/${item.owner}.jpg`}
+												alt={item.owner}
+												onError={(e) => e.target.setAttribute('src', 'https://www.flickr.com/images/buddyicon.gif')}
+											/>
+											<span
+												onClick={(e) => {
+													!isUser.current && showUser(e);
+												}}
+											>
+												{item.owner}
+											</span>
+										</div>
 									</div>
-								</div>
-							</article>
-						);
-					})}
-				</Masonry>
-			</div>
-		</Layout>
+								</article>
+							);
+						})}
+					</Masonry>
+				</div>
+			</Layout>
+			<Modal ref={openModal}>
+				<img src={`https://live.staticflickr.com/${Items[Index]?.server}/${Items[Index]?.id}_${Items[Index]?.secret}_b.jpg`} alt='' />
+			</Modal>
+		</>
 	);
 }
 
