@@ -11,15 +11,20 @@ import Department from './components/sub/Department';
 import Gallery from './components/sub/Gallery';
 import Members from './components/sub/Members';
 import Youtube from './components/sub/Youtube';
+
 import './scss/style.scss';
+import Menu from './components/common/Menu';
+import { useRef } from 'react';
 
 function App() {
+	const menu = useRef(null);
+
 	return (
 		<>
 			{/* Switch내부에 중복되는 라우트 경로가 있을때 먼저나온 라우트를 채택하고 그 이후는 무시 */}
 			<Switch>
-				<Route exact path='/' component={Main} />
-				<Route path='/' render={() => <Header type={'sub'} />} />
+				<Route exact path='/' render={() => <Main menu={menu} />} />
+				<Route path='/' render={() => <Header type={'sub'} menu={menu} />} />
 			</Switch>
 
 			<Route path='/department' component={Department} />
@@ -30,6 +35,7 @@ function App() {
 			<Route path='/members' component={Members} />
 
 			<Footer />
+			<Menu ref={menu} />
 		</>
 	);
 }
