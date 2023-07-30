@@ -205,3 +205,12 @@
 - localStorage.setItem({key:'value'}) : 값 저장
 - localStorage.getItem(key) : 값 불러오기
 - 저장할 때는 문자화 해서 저장, 불러올 때는 data parsing
+
+<hr>
+
+### 사용한것
+
+- 갤러리 : Masonry
+- 모션 : framer-motion
+- 유튜브 : google api
+- 지도 : kakao map
