@@ -46,7 +46,6 @@ function Gallery() {
 		imgs.forEach((img) => {
 			img.onload = () => {
 				++counter;
-				console.log(counter);
 				if (counter === imgs.length - 2) {
 					setLoader(false);
 					frame.current.classList.add('on');
