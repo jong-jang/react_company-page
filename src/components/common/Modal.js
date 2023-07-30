@@ -1,4 +1,5 @@
 import { forwardRef, useImperativeHandle, useState, useEffect } from 'react';
+import { AnimatePresence, motion } from 'framer-motion';
 
 const Modal = forwardRef((props, ref) => {
 	const [Open, setOpen] = useState(false);
@@ -12,21 +13,29 @@ const Modal = forwardRef((props, ref) => {
 	}, [Open]);
 
 	return (
-		<>
+		<AnimatePresence>
 			{Open && (
-				<aside className='modal'>
+				<motion.aside
+					className='modal'
+					initial={{ opacity: 0, x: '100%' }}
+					animate={{ opacity: 1, transition: { duration: 0.5 }, x: '0%' }}
+					exit={{ opacity: 0, scale: 0, transition: { duration: 0.5, delay: 0.5 }, x: '-100%' }}
+				>
 					<div className='con'>{props.children}</div>
-					<span
+					<motion.span
 						className='close'
 						onClick={() => {
 							setOpen(false);
 						}}
+						initial={{ opacity: 0, scale: 5 }}
+						animate={{ opacity: 1, scale: 1, transition: { duration: 0.5, delay: 0.5 } }}
+						exit={{ scale: 5, opacity: 0, transition: { duration: 0.5, delay: 0 } }}
 					>
 						close
-					</span>
-				</aside>
+					</motion.span>
+				</motion.aside>
 			)}
-		</>
+		</AnimatePresence>
 	);
 });
 
