@@ -1,4 +1,8 @@
 .Department {
+	figure {
+		background-color: honeydew;
+	}
+
 	> .inner {
 		display: flex;
 		flex-wrap: wrap;
