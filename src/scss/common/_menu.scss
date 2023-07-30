@@ -1,0 +1,16 @@
+#mobilePanel {
+	width: 280px;
+	height: 100vh;
+	background: #111;
+	position: fixed;
+	top: 0;
+	left: 0;
+	z-index: 6;
+	padding: 50px;
+
+	h1 {
+		font: bold 40px/1 'arial';
+		color: #fff;
+		margin-bottom: 30px;
+	}
+}
