@@ -1,7 +1,25 @@
-import React from 'react';
+import { forwardRef, useImperativeHandle, useState } from 'react';
 
-function Menu() {
-	return <div></div>;
-}
+const Menu = forwardRef((props, ref) => {
+	const [Open, setOpen] = useState(false);
+
+	useImperativeHandle(ref, () => {
+		return {
+			toggle: () => {
+				setOpen(!Open);
+			},
+		};
+	});
+
+	return (
+		<>
+			{Open && (
+				<nav id='mobilePanel'>
+					<h1>HOHO</h1>
+				</nav>
+			)}
+		</>
+	);
+});
 
 export default Menu;
