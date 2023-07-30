@@ -7,8 +7,10 @@ function Gallery() {
 	const enableEvent = useRef(null);
 	const frame = useRef(null);
 	const btnSet = useRef(null);
+	const searchInput = useRef(null);
 	const [Items, setItems] = useState([]);
 	const [Loader, setLoader] = useState(true);
+	const [Null, setNull] = useState(false);
 
 	const resetGallery = (e) => {
 		const btns = btnSet.current.querySelectorAll('button');
@@ -22,7 +24,7 @@ function Gallery() {
 		let counter = 0;
 		const key = '540e875989ee5c74090556f957686df1';
 		const num = 50;
-		const baseURL = `https://www.flickr.com/services/rest/?format=json&nojsoncallback=1&api_key=${key}&per_page=${num}`;
+		const baseURL = `https://www.flickr.com/services/rest/?format=json&nojsoncallback=1&api_key=${key}&per_page=${num}&safe_search=1`;
 		const method_interest = 'flickr.interestingness.getList';
 		const method_search = 'flickr.photos.search';
 		const method_user = 'flickr.people.getPhotos';
@@ -32,6 +34,11 @@ function Gallery() {
 		if (opt.type === 'user') url = `${baseURL}&method=${method_user}&user_id=${opt.user}`;
 
 		const result = await axios.get(url);
+		if (result.data.photos.photo.length === 0) {
+			setLoader(false);
+			frame.current.classList.add('on');
+			return alert('해당 키워드의 검색 결과가 없습니다.');
+		}
 		setItems(result.data.photos.photo);
 
 		const imgs = frame.current.querySelectorAll('img');
@@ -70,6 +77,16 @@ function Gallery() {
 		resetGallery(e);
 		getFlickr({ type: 'user', user: e.target.innerText });
 	};
+	const showSearch = (e) => {
+		e.preventDefault();
+		const tag = searchInput.current.value.trim();
+		if (tag === '') return alert('검색어를 입력하세요.');
+		if (!enableEvent.current) return;
+
+		resetGallery(e);
+		getFlickr({ type: 'search', tags: tag });
+		searchInput.current.value = '';
+	};
 
 	useEffect(() => {
 		getFlickr({ type: 'user', user: '198837106@N07' });
@@ -83,6 +100,12 @@ function Gallery() {
 					My Gallery
 				</button>
 			</nav>
+			<div className='searchBox'>
+				<form onSubmit={showSearch}>
+					<input type='text' placeholder='검색어를 입력하세요' ref={searchInput} />
+					<button>Search</button>
+				</form>
+			</div>
 			{Loader && <img className='loader' src={`${process.env.PUBLIC_URL}/img/loading.gif`} alt='loader' />}
 			<div className='frame' ref={frame}>
 				<Masonry elementType={'div'} options={{ transitionDuration: '0.5s' }}>
