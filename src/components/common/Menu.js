@@ -1,4 +1,4 @@
-import { forwardRef, useImperativeHandle, useState } from 'react';
+import { forwardRef, useImperativeHandle, useState, useEffect } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Link, NavLink } from 'react-router-dom';
 
@@ -14,10 +14,23 @@ const Menu = forwardRef((props, ref) => {
 		};
 	});
 
+	useEffect(() => {
+		window.addEventListener('resize', () => {
+			if (window.innerWidth >= 1200) setOpen(false);
+		});
+	}, []);
+
 	return (
 		<AnimatePresence>
 			{Open && (
-				<motion.nav id='mobilePanel' initial={{ x: '-100%', opacity: 0 }} animate={{ x: '0%', opacity: 1 }} exit={{ x: '-100%', opacity: 0 }} transition={{ duration: 0.5 }}>
+				<motion.nav
+					id='mobilePanel'
+					initial={{ x: '-100%', opacity: 0 }}
+					animate={{ x: '0%', opacity: 1 }}
+					exit={{ x: '-100%', opacity: 0 }}
+					transition={{ duration: 0.5 }}
+					onClick={() => setOpen(false)}
+				>
 					<h1>
 						<Link to='/'>HOHO</Link>
 					</h1>
