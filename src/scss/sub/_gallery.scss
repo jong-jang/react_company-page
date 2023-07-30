@@ -1,4 +1,7 @@
 .Gallery {
+	figure {
+		background-color: aquamarine;
+	}
 	.loader {
 		position: absolute;
 		top: 0;
@@ -44,6 +47,29 @@
 					color: #777;
 					margin-bottom: 30px;
 					margin-top: 10px;
+				}
+			}
+		}
+	}
+}
+
+@media screen and (max-width: $tablet) {
+	.Gallery {
+		.inner {
+			.frame {
+				article {
+					width: 50%;
+				}
+			}
+		}
+	}
+}
+@media screen and (max-width: $mobile) {
+	.Gallery {
+		.inner {
+			.frame {
+				article {
+					width: 100%;
 				}
 			}
 		}
