@@ -1,4 +1,4 @@
-import { useRef, useEffect, useState } from 'react';
+import { useRef, useEffect, useState, useCallback } from 'react';
 import Anime from '../../asset/anime';
 
 function Btns({ setScrolled, setPos }) {
@@ -6,15 +6,15 @@ function Btns({ setScrolled, setPos }) {
 	let pos = useRef([]);
 	const [Num, setNum] = useState(0);
 
-	const getPos = () => {
+	const getPos = useCallback(() => {
 		pos.current = [];
 		const secs = btnRef.current.parentElement.querySelectorAll('.myScroll');
 		for (const sec of secs) pos.current.push(sec.offsetTop);
 		setNum(pos.current.length);
 		setPos(pos.current);
-	};
+	}, [setPos]);
 
-	const activation = () => {
+	const activation = useCallback(() => {
 		const scroll = window.scrollY;
 		const btns = btnRef.current.children;
 		const boxs = btnRef.current.parentElement.querySelectorAll('.myScroll');
@@ -29,7 +29,7 @@ function Btns({ setScrolled, setPos }) {
 				boxs[idx].classList.add('on');
 			}
 		});
-	};
+	}, [setScrolled]);
 
 	useEffect(() => {
 		getPos();
@@ -53,7 +53,7 @@ function Btns({ setScrolled, setPos }) {
 			window.removeEventListener('scroll', activation);
 			window.scrollTo({ top: 0, behavior: 'smooth' });
 		};
-	}, []);
+	}, [getPos, activation]);
 
 	return (
 		<ul id='scroll_navi' ref={btnRef}>
