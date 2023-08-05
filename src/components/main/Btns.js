@@ -1,44 +1,40 @@
-import { useRef, useEffect, useState, useCallback, memo } from 'react';
+import { useRef, useEffect, useState, useCallback } from 'react';
 import Anime from '../../asset/anime';
+import { useThrottle } from '../../hooks/useThrottle';
 
 function Btns({ setScrolled, setPos }) {
 	const btnRef = useRef(null);
 	let pos = useRef([]);
 	const [Num, setNum] = useState(0);
-	const eventBlocker = useRef(null);
 
 	const getPos = useCallback(() => {
-		if (eventBlocker.current) return;
-		eventBlocker.current = setTimeout(() => {
-			pos.current = [];
-			const secs = btnRef.current.parentElement.querySelectorAll('.myScroll');
-			for (const sec of secs) pos.current.push(sec.offsetTop);
-			setNum(pos.current.length);
-			setPos(pos.current);
-			eventBlocker.current = null;
-		}, 100);
+		console.log('getPos called!!!');
+		pos.current = [];
+		const secs = btnRef.current.parentElement.querySelectorAll('.myScroll');
+		for (const sec of secs) pos.current.push(sec.offsetTop);
+		setNum(pos.current.length);
+		setPos(pos.current);
 	}, [setPos]);
 
 	const activation = useCallback(() => {
-		if (eventBlocker.current) return;
-		console.log('스크롤 이벤트 발생!');
-		eventBlocker.current = setTimeout(() => {
-			const scroll = window.scrollY;
-			const btns = btnRef.current.children;
-			const boxs = btnRef.current.parentElement.querySelectorAll('.myScroll');
-			const base = -window.innerHeight / 2;
+		console.log('activation called!!');
+		const scroll = window.scrollY;
+		const btns = btnRef.current.children;
+		const boxs = btnRef.current.parentElement.querySelectorAll('.myScroll');
+		const base = -window.innerHeight / 2;
 
-			pos.current.forEach((pos, idx) => {
-				if (scroll >= pos + base) {
-					for (const btn of btns) btn.classList.remove('on');
-					for (const box of boxs) box.classList.remove('on');
-					btns[idx].classList.add('on');
-					boxs[idx].classList.add('on');
-				}
-			});
-			eventBlocker.current = null;
-		}, 100);
-	}, [setScrolled]);
+		pos.current.forEach((pos, idx) => {
+			if (scroll >= pos + base) {
+				for (const btn of btns) btn.classList.remove('on');
+				for (const box of boxs) box.classList.remove('on');
+				btns[idx].classList.add('on');
+				boxs[idx].classList.add('on');
+			}
+		});
+	}, []);
+
+	const getPos2 = useThrottle(getPos);
+	const activation2 = useThrottle(activation);
 
 	const changeScroll = useCallback(() => {
 		const scroll = window.scrollY;
@@ -47,21 +43,10 @@ function Btns({ setScrolled, setPos }) {
 
 	useEffect(() => {
 		getPos();
-		window.addEventListener('resize', getPos);
-		window.addEventListener('scroll', activation);
+		window.addEventListener('resize', getPos2);
+		window.addEventListener('scroll', activation2);
 		window.addEventListener('scroll', changeScroll);
-
 		window.scrollTo({ top: 0, behavior: 'smooth' });
-		/*
-		window객체 scrollTo를 써도 되지만
-		콜백기능이 없음
-		SPA이기 때문에 페이지 이동시에 스크롤위치가 그대로기 떄문에 새로고침시 상단으로 이동되게 할 필요가 있음 umount시에도 적용필요
-		new Anime(window, {
-			prop:'scroll',
-			value: 0,
-			duration:500,
-		})
-		*/
 
 		return () => {
 			window.removeEventListener('resize', getPos);
@@ -96,4 +81,4 @@ function Btns({ setScrolled, setPos }) {
 	);
 }
 
-export default memo(Btns);
+export default Btns;
