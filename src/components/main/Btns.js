@@ -49,12 +49,12 @@ function Btns({ setScrolled, setPos }) {
 		window.scrollTo({ top: 0, behavior: 'smooth' });
 
 		return () => {
-			window.removeEventListener('resize', getPos);
-			window.removeEventListener('scroll', activation);
+			window.removeEventListener('resize', getPos2);
+			window.removeEventListener('scroll', activation2);
 			window.removeEventListener('scroll', changeScroll);
 			window.scrollTo({ top: 0, behavior: 'smooth' });
 		};
-	}, [getPos, activation, changeScroll]);
+	}, [getPos, getPos2, activation2, changeScroll]);
 
 	return (
 		<ul id='scroll_navi' ref={btnRef}>
