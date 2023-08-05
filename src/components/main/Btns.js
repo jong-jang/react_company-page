@@ -42,7 +42,7 @@ function Btns({ setScrolled, setPos }) {
 	}, [setScrolled]);
 
 	useEffect(() => {
-		getPos();
+		getPos2();
 		window.addEventListener('resize', getPos2);
 		window.addEventListener('scroll', activation2);
 		window.addEventListener('scroll', changeScroll);
@@ -54,7 +54,7 @@ function Btns({ setScrolled, setPos }) {
 			window.removeEventListener('scroll', changeScroll);
 			window.scrollTo({ top: 0, behavior: 'smooth' });
 		};
-	}, [getPos, getPos2, activation2, changeScroll]);
+	}, [getPos, activation, changeScroll]);
 
 	return (
 		<ul id='scroll_navi' ref={btnRef}>
