@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, memo } from 'react';
 
 function News() {
 	const dummy = useRef([
@@ -33,4 +33,4 @@ function News() {
 	);
 }
 
-export default News;
+export default memo(News);

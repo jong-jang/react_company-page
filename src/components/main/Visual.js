@@ -1,4 +1,4 @@
-import React from 'react';
+import { memo } from 'react';
 
 function Visual() {
 	return (
@@ -8,4 +8,4 @@ function Visual() {
 	);
 }
 
-export default Visual;
+export default memo(Visual);
