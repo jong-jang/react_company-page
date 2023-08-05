@@ -5,36 +5,51 @@ function Btns({ setScrolled, setPos }) {
 	const btnRef = useRef(null);
 	let pos = useRef([]);
 	const [Num, setNum] = useState(0);
+	const eventBlocker = useRef(null);
 
 	const getPos = useCallback(() => {
-		pos.current = [];
-		const secs = btnRef.current.parentElement.querySelectorAll('.myScroll');
-		for (const sec of secs) pos.current.push(sec.offsetTop);
-		setNum(pos.current.length);
-		setPos(pos.current);
+		if (eventBlocker.current) return;
+		eventBlocker.current = setTimeout(() => {
+			pos.current = [];
+			const secs = btnRef.current.parentElement.querySelectorAll('.myScroll');
+			for (const sec of secs) pos.current.push(sec.offsetTop);
+			setNum(pos.current.length);
+			setPos(pos.current);
+			eventBlocker.current = null;
+		}, 100);
 	}, [setPos]);
 
 	const activation = useCallback(() => {
-		const scroll = window.scrollY;
-		const btns = btnRef.current.children;
-		const boxs = btnRef.current.parentElement.querySelectorAll('.myScroll');
-		const base = -window.innerHeight / 2;
-		setScrolled(scroll);
+		if (eventBlocker.current) return;
+		console.log('스크롤 이벤트 발생!');
+		eventBlocker.current = setTimeout(() => {
+			const scroll = window.scrollY;
+			const btns = btnRef.current.children;
+			const boxs = btnRef.current.parentElement.querySelectorAll('.myScroll');
+			const base = -window.innerHeight / 2;
 
-		pos.current.forEach((pos, idx) => {
-			if (scroll >= pos + base) {
-				for (const btn of btns) btn.classList.remove('on');
-				for (const box of boxs) box.classList.remove('on');
-				btns[idx].classList.add('on');
-				boxs[idx].classList.add('on');
-			}
-		});
+			pos.current.forEach((pos, idx) => {
+				if (scroll >= pos + base) {
+					for (const btn of btns) btn.classList.remove('on');
+					for (const box of boxs) box.classList.remove('on');
+					btns[idx].classList.add('on');
+					boxs[idx].classList.add('on');
+				}
+			});
+			eventBlocker.current = null;
+		}, 100);
+	}, [setScrolled]);
+
+	const changeScroll = useCallback(() => {
+		const scroll = window.scrollY;
+		setScrolled(scroll);
 	}, [setScrolled]);
 
 	useEffect(() => {
 		getPos();
 		window.addEventListener('resize', getPos);
 		window.addEventListener('scroll', activation);
+		window.addEventListener('scroll', changeScroll);
 
 		window.scrollTo({ top: 0, behavior: 'smooth' });
 		/*
@@ -51,9 +66,10 @@ function Btns({ setScrolled, setPos }) {
 		return () => {
 			window.removeEventListener('resize', getPos);
 			window.removeEventListener('scroll', activation);
+			window.removeEventListener('scroll', changeScroll);
 			window.scrollTo({ top: 0, behavior: 'smooth' });
 		};
-	}, [getPos, activation]);
+	}, [getPos, activation, changeScroll]);
 
 	return (
 		<ul id='scroll_navi' ref={btnRef}>
