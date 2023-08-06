@@ -4,12 +4,15 @@ import axios from 'axios';
 
 function Department() {
 	const [Members, setMembers] = useState([]);
+	const [Mounted, setMounted] = useState(true);
 
 	useEffect(() => {
 		axios.get(`${process.env.PUBLIC_URL}/DB/members.json`).then((data) => {
-			setMembers(data.data.members);
+			Mounted && setMembers(data.data.members);
 		});
-	}, []);
+
+		return () => setMounted(false);
+	}, [Mounted]);
 
 	return (
 		<Layout name={'Department'}>

@@ -1,7 +1,7 @@
 import Layout from '../common/Layout';
 import axios from 'axios';
 import Masonry from 'react-masonry-component';
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import Modal from '../common/Modal';
 
 function Gallery() {
@@ -14,6 +14,7 @@ function Gallery() {
 	const [Items, setItems] = useState([]);
 	const [Loader, setLoader] = useState(true);
 	const [Index, setIndex] = useState(0);
+	const [Mounted, setMounted] = useState(true);
 
 	const resetGallery = (e) => {
 		isUser.current = false;
@@ -24,41 +25,44 @@ function Gallery() {
 		frame.current.classList.remove('on');
 	};
 
-	const getFlickr = async (opt) => {
-		let counter = 0;
-		const key = '540e875989ee5c74090556f957686df1';
-		const num = 50;
-		const baseURL = `https://www.flickr.com/services/rest/?format=json&nojsoncallback=1&api_key=${key}&per_page=${num}&safe_search=1`;
-		const method_interest = 'flickr.interestingness.getList';
-		const method_search = 'flickr.photos.search';
-		const method_user = 'flickr.people.getPhotos';
-		let url = '';
-		if (opt.type === 'interest') url = `${baseURL}&method=${method_interest}`;
-		if (opt.type === 'search') url = `${baseURL}&method=${method_search}&tags=${opt.tags}`;
-		if (opt.type === 'user') url = `${baseURL}&method=${method_user}&user_id=${opt.user}`;
+	const getFlickr = useCallback(
+		async (opt) => {
+			let counter = 0;
+			const key = '540e875989ee5c74090556f957686df1';
+			const num = 50;
+			const baseURL = `https://www.flickr.com/services/rest/?format=json&nojsoncallback=1&api_key=${key}&per_page=${num}&safe_search=1`;
+			const method_interest = 'flickr.interestingness.getList';
+			const method_search = 'flickr.photos.search';
+			const method_user = 'flickr.people.getPhotos';
+			let url = '';
+			if (opt.type === 'interest') url = `${baseURL}&method=${method_interest}`;
+			if (opt.type === 'search') url = `${baseURL}&method=${method_search}&tags=${opt.tags}`;
+			if (opt.type === 'user') url = `${baseURL}&method=${method_user}&user_id=${opt.user}`;
 
-		const result = await axios.get(url);
-		if (result.data.photos.photo.length === 0) {
-			setLoader(false);
-			frame.current.classList.add('on');
-			return alert('해당 키워드의 검색 결과가 없습니다.');
-		}
-		setItems(result.data.photos.photo);
+			const result = await axios.get(url);
+			if (result.data.photos.photo.length === 0) {
+				setLoader(false);
+				frame.current.classList.add('on');
+				return alert('해당 키워드의 검색 결과가 없습니다.');
+			}
+			Mounted && setItems(result.data.photos.photo);
 
-		const imgs = frame.current.querySelectorAll('img');
-		imgs.forEach((img) => {
-			img.onload = () => {
-				++counter;
-				if (counter === imgs.length - 2) {
-					setLoader(false);
-					frame.current.classList.add('on');
-					setTimeout(() => {
-						enableEvent.current = true;
-					}, 500);
-				}
-			};
-		});
-	};
+			const imgs = frame.current?.querySelectorAll('img');
+			imgs?.forEach((img) => {
+				img.onload = () => {
+					++counter;
+					if (counter === imgs.length - 2) {
+						setLoader(false);
+						frame.current.classList.add('on');
+						setTimeout(() => {
+							enableEvent.current = true;
+						}, 500);
+					}
+				};
+			});
+		},
+		[Mounted]
+	);
 
 	const showInterest = (e) => {
 		if (e.target.classList.contains('on')) return;
@@ -96,7 +100,11 @@ function Gallery() {
 
 	useEffect(() => {
 		getFlickr({ type: 'user', user: '198837106@N07' });
-	}, []);
+
+		return () => {
+			setMounted(false);
+		};
+	}, [Mounted, getFlickr]);
 
 	return (
 		<>

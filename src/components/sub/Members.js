@@ -18,7 +18,7 @@ function Members() {
 	const [Val, setVal] = useState(initVal);
 	const [Err, setErr] = useState({});
 	const [Submit, setSubmit] = useState(false);
-	const [Mounted, setMounted] = useState(false);
+	const [Mounted, setMounted] = useState(true);
 
 	const DebouncedVal = useDebounce(Val);
 
