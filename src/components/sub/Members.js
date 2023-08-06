@@ -18,6 +18,7 @@ function Members() {
 	const [Val, setVal] = useState(initVal);
 	const [Err, setErr] = useState({});
 	const [Submit, setSubmit] = useState(false);
+	const [Mounted, setMounted] = useState(false);
 
 	const DebouncedVal = useDebounce(Val);
 
@@ -40,8 +41,8 @@ function Members() {
 	};
 
 	const showCheck = useCallback(() => {
-		console.log('값 변경');
 		setErr(check(DebouncedVal));
+		setSubmit(false);
 	}, [DebouncedVal]);
 
 	useEffect(() => {
@@ -88,7 +89,7 @@ function Members() {
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
-		setErr(check(Val));
+		Mounted && setErr(check(Val));
 		setSubmit(true);
 	};
 
@@ -98,6 +99,9 @@ function Members() {
 			alert('모든 인증을 통과했습니다');
 			history.push('/');
 		}
+		return () => {
+			setMounted(false);
+		};
 	}, [Err, history, Submit]);
 
 	return (
