@@ -1,10 +1,12 @@
 import Layout from '../common/Layout';
-import { useRef, useEffect, useState } from 'react';
+import { useRef, useEffect, useState, useCallback } from 'react';
 import emailjs from '@emailjs/browser';
+import { useThrottle } from '../../hooks/useThrottle';
 
 function Contact() {
 	const [Traffic, setTraffic] = useState(false);
 	const [Index, setIndex] = useState(0);
+	const [Location, setLocation] = useState(null);
 	const container = useRef(null);
 	const mapInstanceRef = useRef(null);
 	const form = useRef(null);
@@ -36,6 +38,11 @@ function Contact() {
 		},
 	]);
 
+	const setCenter = useCallback(() => {
+		console.log('setCenter');
+		Location.setCenter(info.current[Index].latlng);
+	}, [Index, Location]);
+
 	const sendEmail = (e) => {
 		e.preventDefault();
 
@@ -58,6 +65,7 @@ function Contact() {
 	useEffect(() => {
 		container.current.innerHTML = '';
 		const mapInstance = new kakao.maps.Map(container.current, { center: info.current[Index].latlng, level: 3 });
+		setLocation(mapInstance);
 		const markerImage = new kakao.maps.MarkerImage(info.current[Index].imgSrc, info.current[Index].imgSize, info.current[Index].imgPos);
 
 		const marker = new kakao.maps.Marker({
@@ -69,20 +77,16 @@ function Contact() {
 		mapInstance.addControl(new kakao.maps.MapTypeControl(), kakao.maps.ControlPosition.TOPRIGHT);
 		mapInstance.addControl(new kakao.maps.ZoomControl(), kakao.maps.ControlPosition.RIGHT);
 		mapInstanceRef.current = mapInstance;
-
-		const setCenter = () => {
-			console.log('setCenter');
-			mapInstance.setCenter(info.current[Index].latlng);
-		};
-
-		window.addEventListener('resize', setCenter);
-		return () => window.removeEventListener('resize', setCenter);
 	}, [Index, kakao]);
 
 	useEffect(() => {
 		Traffic ? mapInstanceRef.current.addOverlayMapTypeId(kakao.maps.MapTypeId.TRAFFIC) : mapInstanceRef.current.removeOverlayMapTypeId(kakao.maps.MapTypeId.TRAFFIC);
 	}, [Traffic, kakao]);
 
+	useEffect(() => {
+		window.addEventListener('resize', setCenter);
+		return () => window.removeEventListener('resize', setCenter);
+	}, [setCenter]);
 	return (
 		<Layout name={'Contact'}>
 			<div id='map' ref={container}></div>
