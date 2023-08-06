@@ -1,4 +1,4 @@
-import { useRef, useEffect, useState, useCallback } from 'react';
+import { useRef, useEffect, useState, useCallback, memo } from 'react';
 import Anime from '../../asset/anime';
 import { useThrottle } from '../../hooks/useThrottle';
 
@@ -8,7 +8,6 @@ function Btns({ setScrolled, setPos }) {
 	const [Num, setNum] = useState(0);
 
 	const getPos = useCallback(() => {
-		console.log('getPos called!!!');
 		pos.current = [];
 		const secs = btnRef.current.parentElement.querySelectorAll('.myScroll');
 		for (const sec of secs) pos.current.push(sec.offsetTop);
@@ -17,7 +16,6 @@ function Btns({ setScrolled, setPos }) {
 	}, [setPos]);
 
 	const activation = useCallback(() => {
-		console.log('activation called!!');
 		const scroll = window.scrollY;
 		const btns = btnRef.current.children;
 		const boxs = btnRef.current.parentElement.querySelectorAll('.myScroll');
@@ -54,7 +52,7 @@ function Btns({ setScrolled, setPos }) {
 			window.removeEventListener('scroll', changeScroll);
 			window.scrollTo({ top: 0, behavior: 'smooth' });
 		};
-	}, [getPos, activation, changeScroll]);
+	}, [getPos, getPos2, activation2, changeScroll]);
 
 	return (
 		<ul id='scroll_navi' ref={btnRef}>
@@ -81,4 +79,4 @@ function Btns({ setScrolled, setPos }) {
 	);
 }
 
-export default Btns;
+export default memo(Btns);
