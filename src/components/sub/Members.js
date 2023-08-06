@@ -36,7 +36,7 @@ function Members() {
 		setVal({ ...Val, [name]: checkArr });
 	};
 
-	const resetFrom = () => {
+	const resetForm = () => {
 		setVal(initVal);
 	};
 
@@ -200,7 +200,7 @@ function Members() {
 							{/* btnSet */}
 							<tr>
 								<th colSpan='2'>
-									<input type='reset' value='CANCEL' onClick={resetFrom} />
+									<input type='reset' value='CANCEL' onClick={resetForm} />
 									<input type='submit' value='SEND' />
 								</th>
 							</tr>
