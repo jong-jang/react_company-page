@@ -43,6 +43,8 @@ function Contact() {
 		Location.setCenter(info.current[Index].latlng);
 	}, [Index, Location]);
 
+	const setCenter2 = useThrottle(setCenter);
+
 	const sendEmail = (e) => {
 		e.preventDefault();
 
@@ -84,9 +86,9 @@ function Contact() {
 	}, [Traffic, kakao]);
 
 	useEffect(() => {
-		window.addEventListener('resize', setCenter);
-		return () => window.removeEventListener('resize', setCenter);
-	}, [setCenter]);
+		window.addEventListener('resize', setCenter2);
+		return () => window.removeEventListener('resize', setCenter2);
+	}, [setCenter2]);
 	return (
 		<Layout name={'Contact'}>
 			<div id='map' ref={container}></div>
