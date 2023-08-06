@@ -1,6 +1,7 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import Layout from '../common/Layout';
 import { useHistory } from 'react-router-dom';
+import { useDebounce } from '../../hooks/useDebounce';
 
 function Members() {
 	const history = useHistory();
@@ -17,6 +18,8 @@ function Members() {
 	const [Val, setVal] = useState(initVal);
 	const [Err, setErr] = useState({});
 	const [Submit, setSubmit] = useState(false);
+
+	const DebouncedVal = useDebounce(Val);
 
 	const handleChange = (e) => {
 		const { name, value } = e.target;
@@ -35,6 +38,15 @@ function Members() {
 		});
 		setVal({ ...Val, [name]: checkArr });
 	};
+
+	const showCheck = useCallback(() => {
+		console.log('값 변경');
+		setErr(check(DebouncedVal));
+	}, [DebouncedVal]);
+
+	useEffect(() => {
+		showCheck();
+	}, [showCheck]);
 
 	const resetForm = () => {
 		setVal(initVal);
