@@ -4,11 +4,6 @@
 	background: transparent;
 	position: relative;
 	overflow: hidden;
-	>p {
-		position: absolute;
-		bottom:15%; right:1%;
-		color:#ddd;
-	}
 	#stars {
 		width: 1px;
 		height: 1px;
@@ -58,80 +53,27 @@
 			box-shadow: 119px 856px #bbb , 508px 302px #bbb , 943px 392px #bbb , 1751px 722px #bbb , 1908px 1624px #bbb , 1362px 1093px #bbb , 148px 1755px #bbb , 1521px 229px #bbb , 1214px 981px #bbb , 640px 983px #bbb , 1213px 673px #bbb , 1546px 900px #bbb , 156px 1248px #bbb , 1831px 569px #bbb , 747px 913px #bbb , 108px 1845px #bbb , 1202px 705px #bbb , 607px 228px #bbb , 1630px 1909px #bbb , 1182px 1260px #bbb , 1362px 1281px #bbb , 653px 1247px #bbb , 138px 1136px #bbb , 1494px 1773px #bbb , 1858px 905px #bbb , 1748px 1331px #bbb , 1231px 821px #bbb , 513px 1421px #bbb , 1257px 1762px #bbb , 1627px 617px #bbb , 1423px 716px #bbb , 1581px 694px #bbb , 1310px 520px #bbb , 1689px 1274px #bbb , 743px 569px #bbb , 221px 1482px #bbb , 982px 1669px #bbb , 1259px 1978px #bbb , 889px 1865px #bbb , 929px 1499px #bbb , 1323px 1973px #bbb , 1914px 1272px #bbb , 460px 748px #bbb , 547px 1903px #bbb , 1778px 1604px #bbb , 1708px 363px #bbb , 135px 1571px #bbb , 497px 482px #bbb , 892px 784px #bbb , 292px 877px #bbb , 702px 1075px #bbb , 1007px 747px #bbb , 601px 186px #bbb , 1560px 1129px #bbb , 1642px 1079px #bbb , 248px 722px #bbb , 238px 373px #bbb , 1369px 449px #bbb , 84px 1480px #bbb , 52px 72px #bbb , 645px 1332px #bbb , 1696px 1990px #bbb , 1016px 407px #bbb , 876px 180px #bbb , 1049px 148px #bbb , 1608px 1585px #bbb , 1348px 1363px #bbb , 1370px 990px #bbb , 641px 1948px #bbb , 1423px 178px #bbb , 1568px 1207px #bbb , 1203px 95px #bbb , 1653px 822px #bbb , 1366px 772px #bbb , 1828px 1801px #bbb , 1614px 407px #bbb , 435px 234px #bbb , 247px 1953px #bbb , 842px 357px #bbb , 1630px 1934px #bbb , 1214px 530px #bbb , 92px 165px #bbb , 1648px 1734px #bbb , 537px 1724px #bbb , 1436px 1283px #bbb , 237px 1422px #bbb , 1127px 1719px #bbb , 1001px 816px #bbb , 1652px 1729px #bbb , 1594px 407px #bbb , 1778px 1258px #bbb , 336px 1342px #bbb , 958px 1033px #bbb , 1320px 1828px #bbb , 1595px 433px #bbb , 897px 1514px #bbb , 721px 957px #bbb , 48px 890px #bbb , 724px 1475px #bbb , 1087px 108px #bbb;
 		}
 	}
-	#title {
-		position: absolute;
-		top: 50%;
-		left: 0;
-		right: 0;
-		color: #FFF;
-		text-align: center;
-		font-family: "lato", sans-serif;
-		font-weight: 600;
-		font-size: 5rem;
-		letter-spacing: 10px;
-		margin-top: -60px;
-		padding-left: 10px;
-		span {
-			background: -webkit-linear-gradient(white, #38495a);
-			-webkit-background-clip: text;
-			-webkit-text-fill-color: transparent;
-			span {
-				display: inline-block;
-				animation: rotate 10000ms ease-out;
-			}
-		}
-	}
 	.h_box {
 		position:absolute;
-		top:10%; left:51%; transform: translateX(-50%);
-		height:240px;
+		top:25%; left:50%; transform: translateX(-50%);
+		height:50%;
 		animation:human 3000ms linear infinite;
 		img{
 			max-width: 100%;
 			height:100%;
 		}
 	}
-	.scroll_move {
-		position: absolute;
-		bottom: 10%; left:50%; transform: translateX(-50%);
-		width:50px; height:70px;
-		border-radius: 1.5rem;
-		border:6px solid #38495a;
-		&::before {
-			content: "";
-			display: block;
-			position:absolute;
-			top:0; left:50%; transform: translateX(-50%);
-			width:6px; height:1.5rem;
-			background: linear-gradient(#fff, #38495a);
-			animation:wheelmove 1500ms linear infinite;
-		}
-	}
 }
 @keyframes human {
   0% {
-    top:10%;
+    top:25%;
   }
   50% {
-    top:12%;
+    top:27%;
   }
   100% {
-    top:10%;
+    top:25%;
   }
-}
-@keyframes wheelmove {
-  0% {
-    opacity: 0.2;
-    top:0;
-  }
-  100% {
-    opacity: 1;
-    top:50%;
-  }
-}
-@keyframes rotate {
-  0%   { transform: rotateY(0deg); }
-  100% { transform: rotateY(1800deg); }
 }
 @keyframes animStar {
   from {
