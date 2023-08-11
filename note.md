@@ -249,6 +249,34 @@ hoc (high order component) : 고착컴포넌트, 인수로 함수를 전달해�
 
 <hr>
 
+## useContext
+
+- 자식 컴포넌트의 뎁스가 많은 경우 최상위 컴포넌트에서 최하위 컴포넌트까지 값을 일일이 전달하는 것이 비효율적
+- 이처럼 props를 통해서 중간단계의 컴포넌트들이 같은 값을 전달하는 상황 (props drilling)
+- Context API를 활용한 useContext hook을 활용하면 컴포넌트 외부에 전역으로 특정 값을 객체 형태로 관리하면서 컴포넌트에게 값 전달 가능
+- createContext : context생성후 provider라는 컴포넌트를 통해 전역으로 특정 값을 전달
+- useContext : createContext로 생성된 값을 원하는 자식컴포넌트에서 자유롭게 호출 가능
+
+## useReducer
+
+### useReducer 쓰는 이유
+
+- 전역 데이터가 외부 요인에 따라 손쉽게 변경이 되면 안되기 때문에 구조적으로 데이터값을 관리하면서 정해진 규칙에 의해서만 변경가능하도록 강제하는 시스템적인 틀
+
+### useReducer에서 중요한 개념
+
+- dispatch (전달자) : 전역 State에 변경요청을 전달해주는 전달자
+- reducer (변형자) : dispatch로 전달받은 요청에만 반응해서 전역 데이터를 변경해주는 변경자
+- action (변경할 내용) : dispatch로 변경요청을 보낼 때 변경사항이 담겨있는 특별한 형태의 객체 {type: '변경방법', payload: '변경할 데이터'}
+
+### useReducer의 개념 예시
+
+: 고객이 계좌입금 용지내역을 작성 (자식 컴포넌트에서 액션객체 생성)
+: 창구직원이 계좌입금 용지를 받아서 금고관리직원한테 전달 (dispatch가 액션값을 받아서 reducer에 전달)
+: 금고관리직원은 전달받은 용지의 내용에 따라서 금고에 돈 저장 (reducer가 dispatch로 액션객체를 받아서 액션객체의 내용에 따라 전역데이터 변경)
+
+<hr>
+
 ### 사용한것
 
 - 갤러리 : Masonry
