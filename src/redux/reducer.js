@@ -46,5 +46,5 @@ const memberReducer = (state = initMember, action) => {
 };
 
 // 해당 변형자함수가 반환하는 리턴값을 하나의 객체로 합쳐서 외부로 export
-const reducer = combineReducers({ memberReducer });
-export default reducer;
+const reducers = combineReducers({ memberReducer });
+export default reducers;
