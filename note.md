@@ -277,6 +277,26 @@ hoc (high order component) : 고착컴포넌트, 인수로 함수를 전달해�
 
 <hr>
 
+## redux
+
+- useContext와 useReducer의 개념을 합쳐서 통합적으로 관리하는 전역데이터 관리 library
+
+store : 어떤 컴포넌트에서든 자유롭게 데이터를 공유할 수 있게 컴포넌트 외부에 있는 독립적인 데이터 공간 (context)
+reducer : store의 데이터를 변경하는 변형자함수 (dispatch로 전달하는 action객체로만 store데이터 변경가능)
+action : 컴포넌트에서 reducer에 데이터변경 요청을 할때 쓰이는 특별한 형태의 객체 {type, payload}
+
+## react-redux
+
+- useDispatch : 컴포넌트에서 리듀서에 action객체를 전달해주는 함수
+- useSelector : 컴포넌트에서 전역 스토어의 데이터를 가져오는 함수
+
+redux 관련된 모든 함수들은 순수함수 형태로 구성이 되어야함 (Pure function)
+
+- DOM이나 React등의 외부요인 없이 순수하게 자바스크립트로만 동작되는 함수
+- Side effect(부수효과)를 발생시키지 않는 함수
+
+<hr>
+
 ### 사용한것
 
 - 갤러리 : Masonry
