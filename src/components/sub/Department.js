@@ -1,18 +1,14 @@
+import { useSelector } from 'react-redux';
 import Layout from '../common/Layout';
-import { useEffect, useState } from 'react';
-import axios from 'axios';
+// import { useEffect, useState } from 'react';
 
 function Department() {
-	const [Members, setMembers] = useState([]);
-	const [Mounted, setMounted] = useState(true);
+	// const [Mounted, setMounted] = useState(true);
+	const Members = useSelector((store) => store.memberReducer.members);
 
-	useEffect(() => {
-		axios.get(`${process.env.PUBLIC_URL}/DB/members.json`).then((data) => {
-			Mounted && setMembers(data.data.members);
-		});
-
-		return () => setMounted(false);
-	}, [Mounted]);
+	// useEffect(() => {
+	// 	return () => setMounted(false);
+	// }, [Mounted]);
 
 	return (
 		<Layout name={'Department'}>
