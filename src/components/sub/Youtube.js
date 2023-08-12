@@ -2,12 +2,23 @@ import Layout from '../common/Layout';
 import axios from 'axios';
 import { useState, useEffect, useRef, useCallback } from 'react';
 import Modal from '../common/Modal';
+import { useSelector, useDispatch } from 'react-redux';
+import { setYoutube } from '../../redux/action';
+
+/* 
+	비동기 서버사이드 데이터를 전역 관리하는 방법
+	1. 초기 전역 state값을 일단 빈배열로 초기화
+	2. 빈배열을 store에 담고 호출되게 처리
+	3. 컴포넌트 마운트시 비동기데이터 fetching후 해당 데이터로 액션객체를 생성하고 dispatch로 리듀서에 전달
+	4. 리듀서가 전역 store를 변경해주면서 자동으로 재랜더링이 일어나고 두번째 랜더링사이클에서 전역에 담겨있는 비동기 데이터 출력
+*/
 
 function Youtube() {
+	const dispatch = useDispatch();
 	const modal = useRef(null);
-	const [Vids, setVids] = useState([]);
 	const [Index, setIndex] = useState(0);
 	const [Mounted, setMounted] = useState(true);
+	const Vids = useSelector((store) => store.youtubeReducer.youtube);
 
 	const fetchYoutube = useCallback(async () => {
 		const key = 'AIzaSyAsfSiK4NgpHz-QbJ48s9iUVg30JzSQ7rc';
@@ -16,8 +27,8 @@ function Youtube() {
 		const url = `https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&key=${key}&playlistId=${list}&maxResults=${num}`;
 
 		const result = await axios.get(url);
-		Mounted && setVids(result.data.items);
-	}, [Mounted]);
+		Mounted && dispatch(setYoutube(result.data.items));
+	}, [Mounted, dispatch]);
 
 	useEffect(() => {
 		fetchYoutube();
