@@ -1,9 +1,7 @@
 import Layout from '../common/Layout';
-import axios from 'axios';
-import { useState, useEffect, useRef, useCallback } from 'react';
+import { useState, useRef } from 'react';
 import Modal from '../common/Modal';
-import { useSelector, useDispatch } from 'react-redux';
-import { setYoutube } from '../../redux/action';
+import { useSelector } from 'react-redux';
 
 /* 
 	비동기 서버사이드 데이터를 전역 관리하는 방법
@@ -14,29 +12,9 @@ import { setYoutube } from '../../redux/action';
 */
 
 function Youtube() {
-	const dispatch = useDispatch();
 	const modal = useRef(null);
 	const [Index, setIndex] = useState(0);
-	const [Mounted, setMounted] = useState(true);
 	const Vids = useSelector((store) => store.youtubeReducer.youtube);
-
-	const fetchYoutube = useCallback(async () => {
-		const key = 'AIzaSyAsfSiK4NgpHz-QbJ48s9iUVg30JzSQ7rc';
-		const list = 'PLJkDsZz0FhUkqKafhbfEQmjhSROZ1kiIl';
-		const num = 10;
-		const url = `https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&key=${key}&playlistId=${list}&maxResults=${num}`;
-
-		const result = await axios.get(url);
-		Mounted && dispatch(setYoutube(result.data.items));
-	}, [Mounted, dispatch]);
-
-	useEffect(() => {
-		fetchYoutube();
-
-		return () => {
-			setMounted(false);
-		};
-	}, [fetchYoutube]);
 
 	return (
 		<>
