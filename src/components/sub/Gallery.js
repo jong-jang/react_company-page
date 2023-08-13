@@ -1,17 +1,21 @@
 import Layout from '../common/Layout';
-import axios from 'axios';
 import Masonry from 'react-masonry-component';
-import { useState, useEffect, useRef, useCallback } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Modal from '../common/Modal';
+import { useSelector, useDispatch } from 'react-redux';
+import * as types from '../../redux/actionType';
 
 function Gallery() {
+	const dispatch = useDispatch();
+	const Items = useSelector((store) => store.flickrReducer.flickr);
+	const counter = useRef(0);
+
 	const openModal = useRef(null);
 	const isUser = useRef(true);
 	const enableEvent = useRef(null);
 	const frame = useRef(null);
 	const btnSet = useRef(null);
 	const searchInput = useRef(null);
-	const [Items, setItems] = useState([]);
 	const [Loader, setLoader] = useState(true);
 	const [Index, setIndex] = useState(0);
 	const [Mounted, setMounted] = useState(true);
@@ -24,7 +28,7 @@ function Gallery() {
 		setLoader(true);
 		frame.current.classList.remove('on');
 	};
-
+	/*
 	const getFlickr = useCallback(
 		async (opt) => {
 			let counter = 0;
@@ -63,20 +67,20 @@ function Gallery() {
 		},
 		[Mounted]
 	);
-
+*/
 	const showInterest = (e) => {
 		if (e.target.classList.contains('on')) return;
 		if (!enableEvent.current) return;
 		enableEvent.current = false;
 		resetGallery(e);
-		getFlickr({ type: 'interest' });
+		dispatch({ type: types.FLICKR.start, opt: { type: 'interest' } });
 	};
 	const showMine = (e) => {
 		if (e.target.classList.contains('on')) return;
 		if (!enableEvent.current) return;
 		enableEvent.current = false;
 		resetGallery(e);
-		getFlickr({ type: 'user', user: '198837106@N07' });
+		dispatch({ type: types.FLICKR.start, opt: { type: 'user', user: '198837106@N07' } });
 		isUser.current = true;
 	};
 	const showUser = (e) => {
@@ -84,7 +88,7 @@ function Gallery() {
 		if (!enableEvent.current) return;
 		enableEvent.current = false;
 		resetGallery(e);
-		getFlickr({ type: 'user', user: e.target.innerText });
+		dispatch({ type: types.FLICKR.start, opt: { type: 'user', user: e.target.innerText } });
 		isUser.current = true;
 	};
 	const showSearch = (e) => {
@@ -94,17 +98,42 @@ function Gallery() {
 		if (!enableEvent.current) return;
 
 		resetGallery(e);
-		getFlickr({ type: 'search', tags: tag });
+		dispatch({ type: types.FLICKR.start, opt: { type: 'search', tags: tag } });
 		searchInput.current.value = '';
 	};
 
 	useEffect(() => {
-		getFlickr({ type: 'user', user: '198837106@N07' });
+		dispatch({ type: types.FLICKR.start, opt: { type: 'user', user: '198837106@N07' } });
 
 		return () => {
 			setMounted(false);
 		};
-	}, [Mounted, getFlickr]);
+	}, [Mounted, dispatch]);
+
+	useEffect(() => {
+		counter.current = 0;
+		if (Items.length === 0) {
+			setLoader(false);
+			frame.current.classList.add('on');
+			return alert('해당 키워드의 검색 결과가 없습니다.');
+		}
+
+		const imgs = frame.current?.querySelectorAll('img');
+		imgs &&
+			imgs.length !== 0 &&
+			imgs?.forEach((img) => {
+				img.onload = () => {
+					++counter.current;
+					if (counter.current === imgs.length - 2) {
+						setLoader(false);
+						frame.current.classList.add('on');
+						setTimeout(() => {
+							enableEvent.current = true;
+						}, 500);
+					}
+				};
+			});
+	}, [Items]);
 
 	return (
 		<>
