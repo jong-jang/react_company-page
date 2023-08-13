@@ -17,9 +17,10 @@
 */
 
 import { takeLatest, put, call, fork, all } from 'redux-saga/effects';
-import { fetchMember, fetchYoutube } from './api';
+import { fetchFlickr, fetchMember, fetchYoutube } from './api';
 import * as types from './actionType';
 
+// youtube 관련
 function* callYoutube() {
 	yield takeLatest(types.YOUTUBE.start, returnYoutube);
 }
@@ -32,6 +33,7 @@ function* returnYoutube() {
 	}
 }
 
+// department 관련
 function* callMember() {
 	yield takeLatest(types.MEMBER.start, returnMember);
 }
@@ -45,6 +47,20 @@ function* returnMember() {
 	}
 }
 
+// flickr
+function* callFlickr() {
+	yield takeLatest(types.FLICKR.start, returnFlickr);
+}
+
+function* returnFlickr(action) {
+	try {
+		const response = yield call(fetchFlickr, action.opt);
+		yield put({ type: types.FLICKR.success, payload: response.data.photos.photo });
+	} catch (err) {
+		yield put({ type: types.FLICKR.fail, payload: err });
+	}
+}
+
 export default function* rootSaga() {
-	yield all([fork(callYoutube), fork(callMember)]);
+	yield all([fork(callYoutube), fork(callMember), fork(callFlickr)]);
 }
