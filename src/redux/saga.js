@@ -17,7 +17,7 @@
 */
 
 import { takeLatest, put, call, fork, all } from 'redux-saga/effects';
-import { fetchYoutube } from './api';
+import { fetchMember, fetchYoutube } from './api';
 import * as types from './actionType';
 
 function* callYoutube() {
@@ -32,6 +32,19 @@ function* returnYoutube() {
 	}
 }
 
+function* callMember() {
+	yield takeLatest(types.MEMBER.start, returnMember);
+}
+
+function* returnMember() {
+	try {
+		const response = yield call(fetchMember);
+		yield put({ type: types.MEMBER.success, payload: response.data.members });
+	} catch (err) {
+		yield put({ type: types.MEMBER.fail, payload: err });
+	}
+}
+
 export default function* rootSaga() {
-	yield all([fork(callYoutube)]);
+	yield all([fork(callYoutube), fork(callMember)]);
 }
