@@ -12,3 +12,18 @@ export const fetchYoutube = async () => {
 export const fetchMember = async () => {
 	return await axios.get(`${process.env.PUBLIC_URL}/DB/members.json`);
 };
+
+export const fetchFlickr = async (opt) => {
+	const key = '540e875989ee5c74090556f957686df1';
+	const num = 50;
+	const baseURL = `https://www.flickr.com/services/rest/?format=json&nojsoncallback=1&api_key=${key}&per_page=${num}&safe_search=1`;
+	const method_interest = 'flickr.interestingness.getList';
+	const method_search = 'flickr.photos.search';
+	const method_user = 'flickr.people.getPhotos';
+	let url = '';
+	if (opt.type === 'interest') url = `${baseURL}&method=${method_interest}`;
+	if (opt.type === 'search') url = `${baseURL}&method=${method_search}&tags=${opt.tags}`;
+	if (opt.type === 'user') url = `${baseURL}&method=${method_user}&user_id=${opt.user}`;
+
+	return await axios.get(url);
+};
