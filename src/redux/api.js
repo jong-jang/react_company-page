@@ -9,3 +9,6 @@ export const fetchYoutube = async () => {
 
 	return await axios.get(url);
 };
+export const fetchMember = async () => {
+	return await axios.get(`${process.env.PUBLIC_URL}/DB/members.json`);
+};
