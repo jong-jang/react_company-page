@@ -14,10 +14,17 @@ import Youtube from './components/sub/Youtube';
 
 import './scss/style.scss';
 import Menu from './components/common/Menu';
-import { useRef } from 'react';
+import { useRef, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import * as types from './redux/actionType';
 
 function App() {
 	const menu = useRef(null);
+	const dispatch = useDispatch();
+
+	useEffect(() => {
+		dispatch({ type: types.YOUTUBE.start });
+	}, [dispatch]);
 
 	return (
 		<>
