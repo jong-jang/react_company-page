@@ -20,6 +20,18 @@ const youtubeReducer = (state = { youtube: [] }, action) => {
 			return state;
 	}
 };
+const memberReducer = (state = { members: [] }, action) => {
+	switch (action.type) {
+		case types.MEMBER.start:
+			return state;
+		case types.MEMBER.success:
+			return { ...state, members: action.payload };
+		case types.MEMBER.fail:
+			return { ...state, members: action.payload };
+		default:
+			return state;
+	}
+};
 
-const reducers = combineReducers({ youtubeReducer });
+const reducers = combineReducers({ youtubeReducer, memberReducer });
 export default reducers;
