@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-export const menuSlice = createSlice({
+const menuSlice = createSlice({
 	name: 'menu',
 	initialState: { open: false },
 	reducers: {

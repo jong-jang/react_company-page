@@ -14,14 +14,13 @@ import Youtube from './components/sub/Youtube';
 
 import './scss/style.scss';
 import Menu from './components/common/Menu';
-import { useEffect, useRef } from 'react';
+import { useEffect } from 'react';
 
 import { useDispatch } from 'react-redux';
 import { fetchYoutube } from './redux/youtubeSlice';
 import { fetchFlickr } from './redux/flickrSlice';
 
 function App() {
-	const menu = useRef(null);
 	const dispatch = useDispatch();
 
 	useEffect(() => {
@@ -34,8 +33,8 @@ function App() {
 		<>
 			{/* Switch내부에 중복되는 라우트 경로가 있을때 먼저나온 라우트를 채택하고 그 이후는 무시 */}
 			<Switch>
-				<Route exact path='/' render={() => <Main menu={menu} />} />
-				<Route path='/' render={() => <Header type={'sub'} menu={menu} />} />
+				<Route exact path='/' render={() => <Main />} />
+				<Route path='/' render={() => <Header type={'sub'} />} />
 			</Switch>
 
 			<Route path='/department' component={Department} />
@@ -46,7 +45,7 @@ function App() {
 			<Route path='/members' component={Members} />
 
 			<Footer />
-			<Menu ref={menu} />
+			<Menu />
 		</>
 	);
 }
