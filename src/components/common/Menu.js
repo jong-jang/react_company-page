@@ -1,36 +1,13 @@
-import { forwardRef, useImperativeHandle, useState, useEffect } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Link, NavLink } from 'react-router-dom';
 
-const Menu = forwardRef((props, ref) => {
-	const [Open, setOpen] = useState(false);
+function Menu() {
 	const active = { color: 'hotpink', fontWeight: 'bold' };
-
-	useImperativeHandle(ref, () => {
-		return {
-			toggle: () => {
-				setOpen(!Open);
-			},
-		};
-	});
-
-	useEffect(() => {
-		window.addEventListener('resize', () => {
-			if (window.innerWidth >= 1200) setOpen(false);
-		});
-	}, []);
 
 	return (
 		<AnimatePresence>
-			{Open && (
-				<motion.nav
-					id='mobilePanel'
-					initial={{ x: '-100%', opacity: 0 }}
-					animate={{ x: '0%', opacity: 1 }}
-					exit={{ x: '-100%', opacity: 0 }}
-					transition={{ duration: 0.5 }}
-					onClick={() => setOpen(false)}
-				>
+			{
+				<motion.nav id='mobilePanel' initial={{ x: '-100%', opacity: 0 }} animate={{ x: '0%', opacity: 1 }} exit={{ x: '-100%', opacity: 0 }} transition={{ duration: 0.5 }}>
 					<h1>
 						<Link to='/'>HOHO</Link>
 					</h1>
@@ -67,9 +44,11 @@ const Menu = forwardRef((props, ref) => {
 						</li>
 					</ul>
 				</motion.nav>
-			)}
+			}
 		</AnimatePresence>
 	);
-});
+}
 
 export default Menu;
+
+/* Redux tookit으로 client side data 전역관리 흐름 createSlice로 리듀서 함수만 생성 prop으로 reducers로 전역관리할 데이터 변경 함수를 등록 */
