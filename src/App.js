@@ -14,10 +14,19 @@ import Youtube from './components/sub/Youtube';
 
 import './scss/style.scss';
 import Menu from './components/common/Menu';
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
+
+import { useDispatch } from 'react-redux';
+import { fetchYoutube } from './redux/youtubeSlice';
 
 function App() {
 	const menu = useRef(null);
+	const dispatch = useDispatch();
+
+	useEffect(() => {
+		// slice로부터 비동기 데이터 fetching후 액션객체를 반환받은뒤 바로 dispatch로 slice의 리듀서로 전달
+		dispatch(fetchYoutube());
+	}, [dispatch]);
 
 	return (
 		<>
