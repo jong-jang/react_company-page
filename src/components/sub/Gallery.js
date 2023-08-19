@@ -13,6 +13,7 @@ function Gallery() {
 	const frame = useRef(null);
 	const btnSet = useRef(null);
 	const searchInput = useRef(null);
+	const counter = useRef(0);
 	const [Loader, setLoader] = useState(true);
 	const [Index, setIndex] = useState(0);
 	const Items = useSelector((store) => store.flickr.data);
@@ -25,35 +26,6 @@ function Gallery() {
 		setLoader(true);
 		frame.current.classList.remove('on');
 	};
-
-	// const getFlickr = useCallback(
-	// 	async (opt) => {
-	// 		let counter = 0;
-
-	// 		const result = await axios.get(url);
-	// 		if (result.data.photos.photo.length === 0) {
-	// 			setLoader(false);
-	// 			frame.current.classList.add('on');
-	// 			return alert('해당 키워드의 검색 결과가 없습니다.');
-	// 		}
-	// 		Mounted && setItems(result.data.photos.photo);
-
-	// 		const imgs = frame.current?.querySelectorAll('img');
-	// 		imgs?.forEach((img) => {
-	// 			img.onload = () => {
-	// 				++counter;
-	// 				if (counter === imgs.length - 2) {
-	// 					setLoader(false);
-	// 					frame.current.classList.add('on');
-	// 					setTimeout(() => {
-	// 						enableEvent.current = true;
-	// 					}, 500);
-	// 				}
-	// 			};
-	// 		});
-	// 	},
-	// 	[Mounted]
-	// );
 
 	const showInterest = (e) => {
 		if (e.target.classList.contains('on')) return;
@@ -88,11 +60,27 @@ function Gallery() {
 		dispatch(fetchFlickr({ type: 'search', tags: tag }));
 		searchInput.current.value = '';
 	};
+	useEffect(() => {
+		counter.current = 0;
+		const imgs = frame.current?.querySelectorAll('img');
+		imgs?.forEach((img) => {
+			img.onload = () => {
+				++counter.current;
+				console.log(counter.current);
+				if (counter.current === imgs.length - 2) {
+					setLoader(false);
+					frame.current.classList.add('on');
+					setTimeout(() => {
+						enableEvent.current = true;
+					}, 500);
+				}
+			};
+		});
+	}, [Items]);
 
 	useEffect(() => {
 		dispatch(fetchFlickr({ type: 'user', user: '198837106@N07' }));
-		console.log(Items);
-	}, [dispatch, Items]);
+	}, [dispatch]);
 
 	return (
 		<>
