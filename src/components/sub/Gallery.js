@@ -78,10 +78,6 @@ function Gallery() {
 		});
 	}, [Items]);
 
-	useEffect(() => {
-		dispatch(fetchFlickr({ type: 'user', user: '198837106@N07' }));
-	}, [dispatch]);
-
 	return (
 		<>
 			<Layout name={'Gallery'}>
@@ -149,4 +145,12 @@ export default Gallery;
 /*  id, key
 id  - 198837106@N07
 key	- 540e875989ee5c74090556f957686df1
+*/
+
+/* gallery컴포넌트에 redux-toolkit으로 데이터가 변경되는흐름
+	1. useSelector로 전역에있는 store데이터를 가져옴
+	2. 이벤트 발생시 핸들러함수 안쪽에서 fetching함수로부터 action객체를 반환받고 dispatch로 slice 리듀서에 전달
+	3. 전역에서 비동기 데이터가 변경되면 자동적으로 useSelector가 다시 새로운 데이터를 받아옴
+	4. 받아지는 데이터를 의존성배열에 등록해서 useEffect를 호출
+	5. 새로운 데이터로 갱신될때마다 useEffect가 실행되고 해당 구문에서 이미지 로딩이벤트 처리후 로딩 제거, 갤러리 출력
 */
