@@ -18,6 +18,7 @@ import { useEffect, useRef } from 'react';
 
 import { useDispatch } from 'react-redux';
 import { fetchYoutube } from './redux/youtubeSlice';
+import { fetchFlickr } from './redux/flickrSlice';
 
 function App() {
 	const menu = useRef(null);
@@ -26,6 +27,7 @@ function App() {
 	useEffect(() => {
 		// slice로부터 비동기 데이터 fetching후 액션객체를 반환받은뒤 바로 dispatch로 slice의 리듀서로 전달
 		dispatch(fetchYoutube());
+		dispatch(fetchFlickr({ type: 'user', user: '198837106@N07' }));
 	}, [dispatch]);
 
 	return (
