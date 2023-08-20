@@ -6,7 +6,7 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 // 비동기 서버통신으로 데이터를 전달받아서 내부적으로 action타입을 자동생성해서 액션객체 생성까지 완료하는 함수
 export const fetchFlickr = createAsyncThunk('flickr/requestFlickr', async (opt) => {
 	const key = '540e875989ee5c74090556f957686df1';
-	const num = 50;
+	const num = 30;
 	const baseURL = `https://www.flickr.com/services/rest/?format=json&nojsoncallback=1&api_key=${key}&per_page=${num}&safe_search=1`;
 	const method_interest = 'flickr.interestingness.getList';
 	const method_search = 'flickr.photos.search';
