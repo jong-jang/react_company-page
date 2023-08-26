@@ -30,51 +30,6 @@ function Gallery() {
 		frame.current.classList.remove('on');
 	};
 
-	/*
-	const getFlickr = useCallback(
-		async (opt) => {
-			console.log('getFLickr');
-			let counter = 0;
-			const key = 'b06bdef72e52a46437b072bb2f340546';
-			const num = 50;
-			const baseURL = `https://www.flickr.com/services/rest/?format=json&nojsoncallback=1&api_key=${key}&per_page=${num}&safe_search=1`;
-			const method_interest = 'flickr.interestingness.getList';
-			const method_search = 'flickr.photos.search';
-			const method_user = 'flickr.people.getPhotos';
-			let url = '';
-			if (opt.type === 'interest') url = `${baseURL}&method=${method_interest}`;
-			if (opt.type === 'search') url = `${baseURL}&method=${method_search}&tags=${opt.tags}`;
-			if (opt.type === 'user') url = `${baseURL}&method=${method_user}&user_id=${opt.user}`;
-
-			const result = await axios.get(url);
-			if (result.data.photos.photo.length === 0) {
-				setLoader(false);
-				frame.current.classList.add('on');
-				return alert('해당 키워드의 검색 결과가 없습니다.');
-			}
-			Mounted && setItems(result.data.photos.photo);
-
-			const imgs = frame.current?.querySelectorAll('img');
-			imgs &&
-				imgs.length !== 0 &&
-				imgs.forEach((img) => {
-					img.onload = () => {
-						++counter;
-						console.log(counter);
-
-						if (counter === imgs.length - 2) {
-							console.log('모든 이미지 소스 로딩완료 후 갤러리화면 출력');
-							setLoader(false);
-							frame.current?.classList.add('on');
-							setTimeout(() => (enableEvent.current = true), 500);
-						}
-					};
-				});
-		},
-		[Mounted]
-	);
-	*/
-
 	const showInterest = (e) => {
 		if (e.target.classList.contains('on')) return;
 		if (!enableEvent.current) return;
@@ -115,7 +70,10 @@ function Gallery() {
 		// 받아지는 데이터가 있어야지만 호출
 		if (isSuccess) {
 			// 결과값이 없으면 경고문구 처리
-			if (Items.length === 0) return console.error('이미지 결과값이 없습니다.');
+			if (Items.length === 0) {
+				setOpt({ type: 'user', user: '198837106@N07' });
+				return alert('이미지 결과값이 없습니다.');
+			}
 
 			// 데이터가 변경될때마다 counter값 초기화
 			let counter = 0;
@@ -130,10 +88,7 @@ function Gallery() {
 				imgs.forEach((img) => {
 					img.onload = () => {
 						++counter;
-						console.log(counter);
-
 						if (counter === imgs.length - 2) {
-							console.log('모든 이미지 소스 로딩완료 후 갤러리화면 출력');
 							setLoader(false);
 							frame.current?.classList.add('on');
 							// 이벤트핸들러가 실행되면 자체적으로 enableEvent값을 false로 변경해서 이벤트방지 처리
