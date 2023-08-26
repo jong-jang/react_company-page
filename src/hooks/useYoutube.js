@@ -13,9 +13,7 @@ const fetchYoutube = async () => {
 
 export const useYoutubeQuery = () => {
 	return useQuery(['youtubeData'], fetchYoutube, {
-		refetchOnMount: false,
-		refetchOnWindowFocus: false,
-		staleTime: 1000 * 5,
-		cacheTime: 1000 * 5,
+		staleTime: 1000 * 60 * 60 * 24,
+		cacheTime: 1000 * 60 * 60 * 24,
 	});
 };
