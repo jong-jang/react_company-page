@@ -13,19 +13,17 @@ import Youtube from './components/sub/Youtube';
 
 import './scss/style.scss';
 import Menu from './components/common/Menu';
-import { useRef } from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
 function App() {
 	const queryClient = new QueryClient();
 
-	const menu = useRef(null);
 	return (
 		<QueryClientProvider client={queryClient}>
 			<Switch>
-				<Route exact path='/' render={() => <Main menu={menu} />} />
-				<Route path='/' render={() => <Header type={'sub'} menu={menu} />} />
+				<Route exact path='/' render={() => <Main />} />
+				<Route path='/' render={() => <Header type={'sub'} />} />
 			</Switch>
 
 			<Route path='/department' component={Department} />
@@ -36,7 +34,7 @@ function App() {
 			<Route path='/members' component={Members} />
 
 			<Footer />
-			<Menu ref={menu} />
+			<Menu />
 			<ReactQueryDevtools />
 		</QueryClientProvider>
 	);

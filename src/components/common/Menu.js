@@ -1,35 +1,21 @@
-import { forwardRef, useImperativeHandle, useState, useEffect } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Link, NavLink } from 'react-router-dom';
+import { useGlobalData } from '../../hooks/useGlobalContext';
 
-const Menu = forwardRef((props, ref) => {
-	const [Open, setOpen] = useState(false);
+function Menu() {
 	const active = { color: 'hotpink', fontWeight: 'bold' };
-
-	useImperativeHandle(ref, () => {
-		return {
-			toggle: () => {
-				setOpen(!Open);
-			},
-		};
-	});
-
-	useEffect(() => {
-		window.addEventListener('resize', () => {
-			if (window.innerWidth >= 1200) setOpen(false);
-		});
-	}, []);
+	const { MenuOpen, setMenuOpen } = useGlobalData();
 
 	return (
 		<AnimatePresence>
-			{Open && (
+			{MenuOpen && (
 				<motion.nav
 					id='mobilePanel'
 					initial={{ x: '-100%', opacity: 0 }}
 					animate={{ x: '0%', opacity: 1 }}
 					exit={{ x: '-100%', opacity: 0 }}
 					transition={{ duration: 0.5 }}
-					onClick={() => setOpen(false)}
+					onClick={() => setMenuOpen(false)}
 				>
 					<h1>
 						<Link to='/'>HOHO</Link>
@@ -70,6 +56,6 @@ const Menu = forwardRef((props, ref) => {
 			)}
 		</AnimatePresence>
 	);
-});
+}
 
 export default Menu;

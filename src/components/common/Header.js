@@ -1,9 +1,11 @@
 import { faBars } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Link, NavLink } from 'react-router-dom';
+import { useGlobalData } from '../../hooks/useGlobalContext';
 
-function Header({ type, menu }) {
+function Header({ type }) {
 	const active = { color: 'hotpink', fontWeight: 'bold' };
+	const { MenuOpen, setMenuOpen } = useGlobalData();
 	return (
 		<header className={type}>
 			<h1>
@@ -45,7 +47,7 @@ function Header({ type, menu }) {
 			<FontAwesomeIcon
 				icon={faBars}
 				onClick={() => {
-					menu.current.toggle();
+					setMenuOpen(!MenuOpen);
 				}}
 			/>
 		</header>
