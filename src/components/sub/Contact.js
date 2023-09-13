@@ -95,7 +95,7 @@ function Contact() {
 			<button onClick={() => setTraffic(!Traffic)}>{Traffic ? 'Traffic ON' : 'Traffic OFF'}</button>
 
 			<ul className='branch'>
-				{info.current.map((el, idx) => {
+				{info?.current.map((el, idx) => {
 					return (
 						<li key={idx} className={idx === Index ? 'on' : ''} onClick={() => setIndex(idx)}>
 							{el.title}
