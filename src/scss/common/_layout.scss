@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Work+Sans:wght@100&display=swap');
 
 .content {
-	input {
+	input:not(input[type=radio], input[type=checkbox]) {
 		width: 100%; border: 0.0625rem solid #e2e2e2; border-radius: 0.375rem;margin-top:0.75rem;padding:1rem 2rem;box-sizing: border-box;color: #000;font-size:1.125rem;font-style: normal;font-weight: 400;
 	}
 	textarea {
