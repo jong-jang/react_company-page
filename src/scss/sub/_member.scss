@@ -4,6 +4,16 @@
 	}
 
 	> .inner {
+		> button {
+			background: #555;
+			border: none;
+			color: #fff;
+			cursor: pointer;
+			display: inline-block;
+			height: 30px;
+			margin-right: 20px;
+			width: 150px;
+		}
 		table {
 			width: 100%;
 			border: none;

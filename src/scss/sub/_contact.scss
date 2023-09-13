@@ -9,14 +9,39 @@
 			height: 500px;
 			background: #333;
 		}
+		>button {
+			margin-top: 2rem;
+			border-radius: 0.75rem;padding:1.1875rem 2rem;box-sizing: border-box;font-size: 1.25rem; font-weight: 700;line-height: 1.75rem;letter-spacing: -0.0125rem;
+		}
 
 		.branch {
+			margin-top: 1rem;
+			display: flex;border-radius: 50px;  background:#F5F5F5;gap:20px;
 			li {
 				cursor: pointer;
-
+				flex:1;padding :18px;box-sizing: border-box;color: #55575C;font-size: 18px;font-weight: 400;line-height: 24px;background-color: transparent;
+				background: #EAEDF2;
 				&.on {
 					color: hotpink;
+					box-shadow: 0px 3px 3px 0px #CAD3DC inset;
 				}
+			}
+		}
+		form {
+			margin-top: 2rem;
+			>p {
+				width:100%;margin-top: 32px; padding:1.25rem 2rem;box-sizing: border-box;border-radius: 0.5rem;border: 0.0625rem solid #EAE3F9;color: #9A6CFB;font-size:1.125rem;font-style: normal;font-weight: 500;line-height: 1.5rem;letter-spacing: -0.0079rem;text-align: center;background-color: #F4F0FC;
+			}
+			>div {
+				margin-top: 0.75rem;
+				>label {
+					display: block; margin-bottom: 12px; color: #000; font-size:1rem;font-style: normal;font-weight: 500;letter-spacing: -0.0079rem;text-align: left;
+				}
+			}
+			input[type=submit] {
+				margin-top: 2rem;
+				width:100%;
+			border-radius: 0.75rem;padding:1rem;box-sizing: border-box;font-size: 1.25rem; font-weight: 700;line-height: 1.75rem;letter-spacing: -0.0125rem;
 			}
 		}
 	}

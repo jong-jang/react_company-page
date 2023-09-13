@@ -95,7 +95,7 @@ function Contact() {
 			<button onClick={() => setTraffic(!Traffic)}>{Traffic ? 'Traffic ON' : 'Traffic OFF'}</button>
 
 			<ul className='branch'>
-				{info?.current.map((el, idx) => {
+				{info.current.map((el, idx) => {
 					return (
 						<li key={idx} className={idx === Index ? 'on' : ''} onClick={() => setIndex(idx)}>
 							{el.title}
@@ -105,12 +105,19 @@ function Contact() {
 			</ul>
 
 			<form ref={form} onSubmit={sendEmail}>
-				<label>Name</label>
-				<input type='text' name='user_name' ref={inputName} />
-				<label>Email</label>
-				<input type='email' name='user_email' ref={inputEmail} />
-				<label>Message</label>
-				<textarea name='message' ref={textarea} />
+				<p>이메일 제출</p>
+				<div>
+					<label>Name</label>
+					<input type='text' name='user_name' ref={inputName} />
+				</div>
+				<div>
+					<label>Email</label>
+					<input type='email' name='user_email' ref={inputEmail} />
+				</div>
+				<div>
+					<label>Message</label>
+					<textarea name='message' ref={textarea} />
+				</div>
 				<input type='submit' value='Send' />
 			</form>
 		</Layout>
