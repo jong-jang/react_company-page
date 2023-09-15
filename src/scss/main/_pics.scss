@@ -1,12 +1,18 @@
 #pics {
 	width: 100%;
-	height: 100vh;
+	height: 300vh;
 	position: relative;
 	padding: 5vw;
 	overflow: hidden;
 
-	h1 {
-		font: bold 100px/1 'arial';
-		color: #fff;
+	figure {
+		width: 20%;
+		height:20%;
+		img {
+			max-width: 100%;
+		}
+		& + figure {
+			margin-top: 10rem;
+		}
 	}
 }

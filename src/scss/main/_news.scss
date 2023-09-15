@@ -1,22 +1,31 @@
 #news {
-	width: 100%;
-	height: 100vh;
-	position: relative;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	gap: 30px;
-	perspective: 700px;
+	padding: 20px 3vw;
+	>div {
+		width: 100%;
+		height: 100vh;
+		position: relative;
+		display: flex;
+		gap: 30px;
+		perspective: 700px;
 
+	}
 	article {
-		width: 15%;
+		width: 18%;
 		height: 40%;
 		padding:1rem;
 		box-sizing: border-box;
-		background: #fff;
+		background: rgb(234, 195, 123);
+		border-radius: 10px;
 		transform: translateY(200px) rotateY(120deg);
 		opacity: 0;
 		transition: 0.5s;
+		> h3 {
+			font: bold 24px/1 'arial';
+		}
+		> p {
+			margin-top: 16px;
+			font: normal 18px/1.5 'Noto Sans';
+		}
 
 		@for $i from 1 through 4 {
 			&:nth-of-type(#{$i}) {

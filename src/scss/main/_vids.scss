@@ -1,9 +1,27 @@
 #vids {
 	width: 100%;
 	height: 100vh;
+	padding: 20px 3vw;
 	position: relative;
 	color:#fff;
+	h1 {
+		font: bold 50px/1 'Sunflower';
+		margin-bottom: 4rem;
+	}
+	> div {
+		width: 100%;
+		display: flex;
+		gap:2rem;
+	}
 	article {
+		flex:1;
 		margin-top: 1rem;
+		>p {
+			font: bold 24px/1 'mooli';
+		}
+		>img {
+			max-width: 100%;
+			margin-top: 32px;
+		}
 	}
 }

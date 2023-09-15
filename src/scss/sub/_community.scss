@@ -2,12 +2,13 @@
 	figure {
 		background: lightblue;
 	}
+	h2 {
+		color:#000;
+	}
 
 	> .inner {
 		.inputBox {
 			width: 100%;
-			border: 1px solid #bbb;
-			padding: 50px;
 			margin-bottom: 50px;
 
 			> textarea { margin-top: 1rem;}
@@ -27,13 +28,12 @@
 		}
 		.showBox {
 			width: 100%;
-			border: 1px solid #bbb;
-			padding: 50px;
 
 			article {
 				background: #fff;
 				padding: 30px;
 				margin-bottom: 40px;
+				border-radius: 20px;
 				display: flex;
 				justify-content: space-between;
 				align-content: center;
