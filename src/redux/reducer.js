@@ -18,6 +18,15 @@ const youtubeReducer = (state = { youtube: [] }, action) => {
 	}
 };
 
+const galleryReducer = (state = {gallery: []}, action) => {
+	switch (action.type) {
+		case 'SET_GALLERY':
+			return {...state, gallery: action.payload}
+		default:
+			return state;
+	}
+}
+
 //해당 변형자함수가 반환하는 리턴값을 하나의 객체로 합쳐서 외부로 export
-const reducer = combineReducers({ memberReducer, youtubeReducer });
+const reducer = combineReducers({ memberReducer, youtubeReducer, galleryReducer });
 export default reducer;

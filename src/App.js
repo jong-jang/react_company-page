@@ -17,7 +17,7 @@ import Menu from './components/common/Menu';
 import { useCallback, useEffect, useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import axios from 'axios';
-import { setYoutube, setMembers } from './redux/action';
+import { setYoutube, setMembers, setGallery } from './redux/action';
 
 function App() {
 	// 비동기 데이터를 전역객체에 저장하는것 자체가 여러컴포넌트에서 해당 값을 재활용하기 위함이므로
@@ -25,6 +25,7 @@ function App() {
 	// 원하는 컴포넌트에 자유롭게 호출
 	const dispatch = useDispatch();
 	const menu = useRef(null);
+
 	const fetchYoutube = useCallback(async () => {
 		const key = 'AIzaSyAsfSiK4NgpHz-QbJ48s9iUVg30JzSQ7rc';
 		const list = 'PLJkDsZz0FhUkqKafhbfEQmjhSROZ1kiIl';
@@ -40,10 +41,27 @@ function App() {
 		dispatch(setMembers(result.data.members));
 	}, [dispatch]);
 
+	const fetchGallery = useCallback(async (opt) => {
+			const key = '540e875989ee5c74090556f957686df1';
+			const num = 50;
+			const baseURL = `https://www.flickr.com/services/rest/?format=json&nojsoncallback=1&api_key=${key}&per_page=${num}&safe_search=1`;
+			const method_interest = 'flickr.interestingness.getList';
+			const method_search = 'flickr.photos.search';
+			const method_user = 'flickr.people.getPhotos';
+			let url = '';
+			if (opt.type === 'interest') url = `${baseURL}&method=${method_interest}`;
+			if (opt.type === 'search') url = `${baseURL}&method=${method_search}&tags=${opt.tags}`;
+			if (opt.type === 'user') url = `${baseURL}&method=${method_user}&user_id=${opt.user}`;
+
+			const result = await axios.get(url);
+			dispatch(setGallery(result.data.photos.photo))
+	}, [dispatch])
+
 	useEffect(() => {
 		fetchYoutube();
 		fetchMembers();
-	}, [fetchYoutube, fetchMembers]);
+		fetchGallery({ type: 'user', user: '198837106@N07' });
+	}, [fetchYoutube, fetchMembers, fetchGallery]);
 
 	return (
 		<>
