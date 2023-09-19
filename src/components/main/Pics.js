@@ -1,17 +1,25 @@
 import { memo } from 'react';
+import { useSelector } from 'react-redux';
 
 function Pics({ Scrolled, Pos }) {
+	const Members = useSelector(store => store.memberReducer.members)
+
 	return (
 		<section id='pics' className='myScroll'>
-			<figure style={{ transform: `translate(${Scrolled - Pos}px) rotate(45deg)` }}>
-				<img src={process.env.PUBLIC_URL + '/img/rocket.png'} alt="123" />
-			</figure>
-			<figure style={{ transform: `translate(${5000 - 2 *Scrolled}px) rotate(45deg)` }}>
-				<img src={process.env.PUBLIC_URL + '/img/meteor1.png'} alt="123" />
-			</figure>
-			<figure style={{ transform: `translate(${3500 - Scrolled}px) rotate(45deg)` }}>
-				<img src={process.env.PUBLIC_URL + '/img/meteor2.png'} alt="123" />
-			</figure>
+			<h2>구성원</h2>
+			<ul style={{transform:`translateX(${Scrolled - Pos -100}px)`}}>
+				{Members.map((member, idx) => {
+					return (
+						<li key={idx}>
+							<div className='pic'>
+								<img src={`${process.env.PUBLIC_URL}/img/${member.pic}`} alt={member.name} />
+							</div>
+							<h3>{member.name}</h3>
+							<p>{member.position}</p>
+						</li>
+					);
+				})}
+			</ul>
 		</section>
 	);
 }

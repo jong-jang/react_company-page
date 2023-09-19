@@ -37,7 +37,6 @@ function Btns({ setScrolled, setPos }) {
 	const changeScroll = useCallback(() => {
 		const scroll = window.scrollY;
 		setScrolled(scroll);
-		console.log(scroll)
 	}, [setScrolled]);
 
 	useEffect(() => {
