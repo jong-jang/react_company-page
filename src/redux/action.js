@@ -14,10 +14,3 @@ export const setYoutube = (data) => {
 		payload: data,
 	};
 };
-
-export const setGallery = (data) => {
-	return {
-		type: 'SET_GALLERY',
-		payload: data,
-	}
-}

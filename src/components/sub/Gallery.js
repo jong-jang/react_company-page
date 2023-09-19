@@ -1,22 +1,20 @@
 import Layout from '../common/Layout';
+import axios from 'axios';
 import Masonry from 'react-masonry-component';
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import Modal from '../common/Modal';
-import { useDispatch, useSelector } from 'react-redux';
-import { setGallery } from '../../redux/action';
 
 function Gallery() {
 	const openModal = useRef(null);
 	const isUser = useRef(true);
-	const enableEvent = useRef(true);
+	const enableEvent = useRef(null);
 	const frame = useRef(null);
-	const dispatch = useDispatch()
 	const btnSet = useRef(null);
-	const counter = useRef(0);
 	const searchInput = useRef(null);
+	const [Items, setItems] = useState([]);
 	const [Loader, setLoader] = useState(true);
 	const [Index, setIndex] = useState(0);
-	const Items = useSelector((store) => store.galleryReducer.gallery)
+	const [Mounted, setMounted] = useState(true);
 
 	const resetGallery = (e) => {
 		isUser.current = false;
@@ -27,19 +25,58 @@ function Gallery() {
 		frame.current.classList.remove('on');
 	};
 
+	const getFlickr = useCallback(
+		async (opt) => {
+			let counter = 0;
+			const key = '540e875989ee5c74090556f957686df1';
+			const num = 50;
+			const baseURL = `https://www.flickr.com/services/rest/?format=json&nojsoncallback=1&api_key=${key}&per_page=${num}&safe_search=1`;
+			const method_interest = 'flickr.interestingness.getList';
+			const method_search = 'flickr.photos.search';
+			const method_user = 'flickr.people.getPhotos';
+			let url = '';
+			if (opt.type === 'interest') url = `${baseURL}&method=${method_interest}`;
+			if (opt.type === 'search') url = `${baseURL}&method=${method_search}&tags=${opt.tags}`;
+			if (opt.type === 'user') url = `${baseURL}&method=${method_user}&user_id=${opt.user}`;
+
+			const result = await axios.get(url);
+			if (result.data.photos.photo.length === 0) {
+				setLoader(false);
+				frame.current.classList.add('on');
+				return alert('해당 키워드의 검색 결과가 없습니다.');
+			}
+			Mounted && setItems(result.data.photos.photo);
+
+			const imgs = frame.current?.querySelectorAll('img');
+			imgs?.forEach((img) => {
+				img.onload = () => {
+					++counter;
+					if (counter === imgs.length - 2) {
+						setLoader(false);
+						frame.current.classList.add('on');
+						setTimeout(() => {
+							enableEvent.current = true;
+						}, 500);
+					}
+				};
+			});
+		},
+		[Mounted]
+	);
+
 	const showInterest = (e) => {
 		if (e.target.classList.contains('on')) return;
 		if (!enableEvent.current) return;
 		enableEvent.current = false;
 		resetGallery(e);
-		dispatch(setGallery({ type: 'interest' }));
+		getFlickr({ type: 'interest' });
 	};
 	const showMine = (e) => {
 		if (e.target.classList.contains('on')) return;
 		if (!enableEvent.current) return;
 		enableEvent.current = false;
 		resetGallery(e);
-		dispatch(setGallery({ type: 'user', user: '198837106@N07' }));
+		getFlickr({ type: 'user', user: '198837106@N07' });
 		isUser.current = true;
 	};
 	const showUser = (e) => {
@@ -47,7 +84,7 @@ function Gallery() {
 		if (!enableEvent.current) return;
 		enableEvent.current = false;
 		resetGallery(e);
-		dispatch(setGallery({ type: 'user', user: e.target.innerText }));
+		getFlickr({ type: 'user', user: e.target.innerText });
 		isUser.current = true;
 	};
 	const showSearch = (e) => {
@@ -55,33 +92,19 @@ function Gallery() {
 		const tag = searchInput.current.value.trim();
 		if (tag === '') return alert('검색어를 입력하세요.');
 		if (!enableEvent.current) return;
+
 		resetGallery(e);
-		dispatch(setGallery({ type: 'search', tags: tag }));
-		if (Items.length === 0) {
-			setLoader(false);
-			frame.current.classList.add('on');
-			return alert('해당 키워드의 검색 결과가 없습니다.');
-		}
+		getFlickr({ type: 'search', tags: tag });
 		searchInput.current.value = '';
 	};
 
 	useEffect(() => {
-		counter.current = 0;
-		const imgs = frame.current?.querySelectorAll('img');
-		imgs?.forEach((img) => {
-			img.onload = () => {
-				++counter.current;
-				console.log(counter.current)
-				if (counter.current === imgs.length - 2) {
-					setLoader(false);
-					frame.current.classList.add('on');
-					setTimeout(() => {
-						enableEvent.current = true;
-					}, 500);
-				}
-			};
-		});
-	}, [Items]);
+		getFlickr({ type: 'user', user: '198837106@N07' });
+
+		return () => {
+			setMounted(false);
+		};
+	}, [Mounted, getFlickr]);
 
 	return (
 		<>
@@ -94,7 +117,7 @@ function Gallery() {
 				</nav>
 				<div className='searchBox'>
 					<form onSubmit={showSearch}>
-						<input type='text' placeholder='검색어를 입력하세요' ref={searchInput} />
+						<input type='text' placeholder='영단어를 입력하세요' ref={searchInput} />
 						<button>Search</button>
 					</form>
 				</div>
