@@ -1,5 +1,4 @@
 import Header from '../common/Header';
-import Banner from './Banner';
 import Btns from './Btns';
 import News from './News';
 import Pics from './Pics';
@@ -19,7 +18,6 @@ function Main({ menu }) {
 			<News />
 			<Pics Scrolled={Scrolled} Pos={Pos[2]} />
 			<Vids />
-			<Banner />
 			<Btns setScrolled={setScrolled} setPos={setPos} />
 		</main>
 	);

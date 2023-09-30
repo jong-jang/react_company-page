@@ -23,15 +23,11 @@ table {
 	opacity: 0;
 }
 body {
-	background : #f5f5f5;
-}
-body:has(main header.main){
-	background: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%);
+	background: #f5f5f5;
 }
 
 h2 {
 	width: 100%;
 	font: normal 50px/1 'work sans';
-	color: #fff;
 	margin-bottom: 60px;
 }
