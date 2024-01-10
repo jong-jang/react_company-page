@@ -2,11 +2,11 @@ import { useEffect, useRef, useState, memo } from 'react';
 
 function News() {
 	const dummy = useRef([
-		{ title: '제목5', content: 'Here comes description in detail.Here comes description in detail.', src: 'https://picsum.photos/500/300/?image=10' },
-		{ title: '제목4', content: 'Here comes description in detail.Here comes description in detail.', src: 'https://picsum.photos/500/300/?image=5' },
-		{ title: '제목3', content: 'Here comes description in detail.Here comes description in detail.', src: 'https://picsum.photos/500/300/?image=11' },
-		{ title: '제목2', content: 'Here comes description in detail.Here comes description in detail.', src: 'https://picsum.photos/500/300/?image=14' },
-		{ title: '제목1', content: 'Here comes description in detail.Here comes description in detail.', src: 'https://picsum.photos/500/300/?image=17' },
+		{ title: '제목5', content: 'Here comes description in detail.Here comes description in detail.' },
+		{ title: '제목4', content: 'Here comes description in detail.Here comes description in detail.' },
+		{ title: '제목3', content: 'Here comes description in detail.Here comes description in detail.' },
+		{ title: '제목2', content: 'Here comes description in detail.Here comes description in detail.' },
+		{ title: '제목1', content: 'Here comes description in detail.Here comes description in detail.' },
 	]);
 	const getLocalData = () => {
 		const data = localStorage.getItem('post');
@@ -29,7 +29,7 @@ function News() {
 						<article className='cards_item' key={idx}>
 							<div className='card'>
 								<div className='card_image'>
-									<img src={post.src} alt={post.title} />
+									<img src='https://picsum.photos/500/300' alt={post.title} />
 								</div>
 								<div className='card_content'>
 									<h2 className='card_title'>{post.title}</h2>
